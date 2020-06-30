@@ -1,0 +1,10 @@
+all:
+  children:
+    linux:
+      vars:
+        ansible_ssh_user: username
+        ansible_ssh_pass: password
+      children:
+        pihole:
+          hosts:
+            139.162.132.106:

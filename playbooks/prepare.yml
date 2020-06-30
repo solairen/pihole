@@ -1,0 +1,53 @@
+---
+  - hosts: all
+    gather_facts: yes
+    become: yes
+    tasks:
+      - name: install docker packages
+        apt:
+          name: "{{ item }}"
+          state: present
+          update_cache: yes
+        loop:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+      - name: install ufw, docker, pip
+        apt:
+          name: "{{ item }}"
+          state: present
+          update_cache: yes
+        loop:
+          - ufw
+          - docker.io
+          - python3-pip
+      - name: enable ufw, docker
+        service:
+          name: "{{ item }}"
+          enabled: yes
+          state: restarted
+        loop:
+          - ufw
+          - docker
+      - name: install docker-compose
+        get_url:
+          url: https://github.com/docker/compose/releases/download/1.26.0/docker-compose-Linux-x86_64
+          dest: /usr/local/bin/docker-compose
+          mode: '+x'
+      - name: install required python packages
+        pip:
+          name: "{{ item }}"
+        loop:
+          - docker
+          - docker-compose
+      - name: disable ubuntu dns
+        systemd:
+          state: stopped
+          name: systemd-resolved.service
+          enabled: no
+      - name: reconfigure ubuntu dns (temporary)
+        lineinfile:
+          path: /etc/resolv.conf
+          regexp: '^nameserver'
+          line: nameserver 8.8.8.8
