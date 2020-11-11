@@ -2,9 +2,9 @@ all:
   children:
     linux:
       vars:
-        ansible_ssh_user: username
-        ansible_ssh_pass: password
+        ansible_ssh_user: vagrant
+        ansible_ssh_pass: vagrant
       children:
         pihole:
           hosts:
-            139.162.132.106:
+            192.168.109.89:

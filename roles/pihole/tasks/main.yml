@@ -1,0 +1,45 @@
+---
+- name: "check if contaier exists"
+  docker_container_info:
+    name: pihole_pihole_1
+  register: result
+  when:  deployment | lower == "brownfield"
+- name: "remove container if exists"
+  docker_container:
+    name: "{{ result.container['Name'] }}"
+    state: absent  
+  when: deployment | lower == "brownfield" and result.exists == true
+- name: set variables for pihole
+  include_vars:
+    file: /ansible/configuration
+    name: config
+- name: run PiHole service in container  
+  docker_compose:
+    project_name: pihole
+    definition:
+      version: '3'
+      services:
+        pihole:
+          image: "pihole/pihole:{{ config._ph_version }}"
+          ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            - "80:80/tcp"
+            - "443:443/tcp"
+          environment:
+            TZ: "{{ config._time_zone }}"
+          volumes:
+            - '${pwd}/etc-pihole/:/etc/pihole/'
+            - '${pwd}/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+          dns:
+            - 127.0.0.1
+            - 1.1.1.1
+          restart: unless-stopped
+- name: set pihole dns
+  lineinfile:
+    state: present
+    path: /etc/resolv.conf
+    regexp: '^nameserver'
+    line: 'nameserver {{ ansible_default_ipv4.address }}'
+  when: deployment | lower == "greenfield"

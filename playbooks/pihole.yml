@@ -1,34 +1,12 @@
 ---
-  - hosts: pihole
-    gather_facts: yes
-    become: yes
-    tasks:
-      - name: run PiHole service in container
-        docker_compose:
-          project_name: pihole
-          definition:
-            version: '3'
-            services:
-              pihole:
-                image: pihole/pihole:latest
-                ports:
-                  - "53:53/tcp"
-                  - "53:53/udp"
-                  - "67:67/udp"
-                  - "80:80/tcp"
-                  - "443:443/tcp"
-                environment:
-                  TZ: 'Europe/Warsaw'
-                volumes:
-                  - '${pwd}/etc-pihole/:/etc/pihole/'
-                  - '${pwd}/etc-dnsmasq.d/:/etc/dnsmasq.d/'
-                dns:
-                  - 127.0.0.1
-                  - 1.1.1.1
-                restart: unless-stopped
-      - name: set pihole dns
-        lineinfile:
-          state: present
-          path: /etc/resolv.conf
-          regexp: '^nameserver'
-          line: 'nameserver {{ ansible_default_ipv4.address }}'
+- hosts: pihole
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Check deployment type
+      debug:
+        msg: "Selected deployment: {{ deployment | lower }}. Playbook will be skip!"
+      when: deployment not in deployment_type
+  roles:
+    - role: roles/pihole
+      when: deployment in deployment_type

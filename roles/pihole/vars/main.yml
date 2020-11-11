@@ -1,0 +1,3 @@
+deployment_type: [greenfield, brownfield]
+time_zone: "{{ _time_zone }}"
+_version: "{{ _ph_version }}"
