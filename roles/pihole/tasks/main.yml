@@ -1,0 +1,35 @@
+---
+- name: "remove PiHole folders"
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ paths }}"
+  when: deployment | lower == "greenfield"
+- name: "run PiHole service in container"
+  docker_container:
+    name: "{{ pi_name }}"
+    image: "pihole/pihole:{{ version }}"
+    state: started
+    recreate: yes
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - /etc-pihole/:/etc/pihole/
+      - /etc-dnsmasq.d/:/etc/dnsmasq.d/
+    env:
+      TZ: "{{ time_zone }}"
+    dns_servers:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart_policy: unless-stopped
+- name: set pihole dns
+  lineinfile:
+    state: present
+    path: /etc/resolv.conf
+    regexp: '^nameserver'
+    line: 'nameserver {{ ansible_default_ipv4.address }}'
+  when: deployment | lower == "greenfield"

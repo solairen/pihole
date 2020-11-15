@@ -1,0 +1,5 @@
+---
+version: "{{ _docker_compose_version }}"
+important_packages: [ apt-transport-https, ca-certificates, curl, software-properties-common, gnupg-agent, ufw, python3-pip ]
+docker_packages: [ docker-ce, docker-ce-cli, containerd.io ]
+python_packages: [ docker, docker-compose ]

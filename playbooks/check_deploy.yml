@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  gather_facts: no
+  become: no
+  tasks:
+    - debug:
+        msg: "Deployment: {{ deployment | lower }}"
+      failed_when: deployment | lower not in [ "greenfield", "brownfield" ]
