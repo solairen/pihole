@@ -1,6 +1,0 @@
-################################
-##### PIHOLE CONFIGURATION #####
-################################
-
-_ph_version: latest
-_time_zone: Europe/Warsaw

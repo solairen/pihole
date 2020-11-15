@@ -1,3 +1,5 @@
 ---
+- include: playbooks/check_deploy.yml
 - include: playbooks/prepare.yml
-- include: playbooks/pihole.yml
+  when: deployment | lower == "greenfield"
+- include: playbooks/pihole.yml  

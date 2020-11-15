@@ -2,11 +2,6 @@
 - hosts: pihole
   gather_facts: yes
   become: yes
-  tasks:
-    - name: Check deployment type
-      debug:
-        msg: "Selected deployment: {{ deployment | lower }}. Playbook will be skip!"
-      when: deployment not in deployment_type
   roles:
     - role: roles/prepare
-      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" and deployment in deployment_type
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"

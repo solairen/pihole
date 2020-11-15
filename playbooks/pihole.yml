@@ -2,11 +2,5 @@
 - hosts: pihole
   gather_facts: yes
   become: yes
-  tasks:
-    - name: Check deployment type
-      debug:
-        msg: "Selected deployment: {{ deployment | lower }}. Playbook will be skip!"
-      when: deployment not in deployment_type
   roles:
     - role: roles/pihole
-      when: deployment in deployment_type

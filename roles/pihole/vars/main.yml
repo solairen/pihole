@@ -1,3 +1,5 @@
-deployment_type: [greenfield, brownfield]
+---
 time_zone: "{{ _time_zone }}"
-_version: "{{ _ph_version }}"
+version: "{{ _ph_version }}"
+pi_name: pihole
+paths: [ /etc-pihole/, /etc-dnsmasq.d/ ]
