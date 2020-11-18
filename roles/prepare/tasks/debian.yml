@@ -1,0 +1,66 @@
+---
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: 
+    - "{{ debian_packages }}"
+    - "{{ python_packages }}"
+- name: add docker gpg key
+  apt_key:
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    state: present
+- name: add docker repository
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
+    state: present
+    update_cache: yes
+- name: install docker
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ docker_packages }}"
+- name: enable firewall, docker services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: restarted
+  loop:
+    - ufw
+    - docker
+- name: add pihole tcp ports to firewall
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ pihole_debian_tcp_ports }}"
+- name: add pihole udp ports to firewall
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: udp
+  loop: "{{ pihole_debian_udp_ports }}"
+- name: install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: '+x'
+- name: install required python packages
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+  loop: "{{ python_pip_packages }}"
+- name: disable ubuntu dns
+  systemd:
+    name: systemd-resolved.service
+    state: stopped    
+    enabled: no
+  when: ansible_distribution == "Ubuntu"
+- name: reconfigure ubuntu dns (temporary)
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^nameserver'
+    line: nameserver 8.8.8.8
+  when: ansible_distribution == "Ubuntu"
