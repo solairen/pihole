@@ -2,9 +2,9 @@ all:
   children:
     linux:
       vars:
-        ansible_ssh_user: root
-        ansible_ssh_pass: Xs4ep0!
+        ansible_ssh_user: user
+        ansible_ssh_pass: password
       children:
         pihole:
           hosts:
-            139.162.131.95:
+            127.0.0.1:
