@@ -7,4 +7,4 @@ _time_zone: Europe/Warsaw
 ################################
 #### DOCKER COMPOSE VERSION ####
 ################################
-_docker_compose_version: 1.26.0
+_docker_compose_version: 1.27.4

@@ -1,5 +1,5 @@
 ### About:
-This ansible script installs PiHole in container on Ubuntu and Debian OS.<br/>
+This ansible script installs PiHole in container on Ubuntu, Debian.<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains own dns that will be disabled during the installation process.<br/>
 The last step of installation process is set DNS to PiHole (host) IP address.
 
@@ -30,8 +30,8 @@ In `group_vars/all/common`, set **pihole version**, **time_zone** and **docker_c
 ```txt
 _ph_version: latest
 _time_zone: Europe/Warsaw
-_docker_compose_version: 1.26.0
+_docker_compose_version: 1.27.4
 ```
 
 ### How to run:
-* ansible-playbook -i inventory start.yml -e deployment=greenfield/brownfield -e 'ansible_python_interpreter=/usr/bin/python3' --ask-become-pass -vv
+* ansible-playbook -i inventory.yml start.yml -e deployment=greenfield/brownfield -e 'ansible_python_interpreter=/usr/bin/python3' --ask-become-pass -vv
