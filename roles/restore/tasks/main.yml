@@ -1,13 +1,8 @@
 ---
-- name: "create PihHole docker network"
-  docker_network:
-    name: "pihole_net"
-    state: present
-  when: deployment | lower == "greenfield"
-- name: "run PiHole service in container"
+- name: "restoring PiHole {{ _ph_restore_version }}"
   docker_container:
     name: "{{ pi_name }}"
-    image: "pihole/pihole:{{ version }}"
+    image: "pihole/pihole:{{ _ph_restore_version }}"
     state: started
     network_mode: pihole_net
     networks:

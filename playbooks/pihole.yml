@@ -2,5 +2,22 @@
 - hosts: pihole
   gather_facts: yes
   become: yes
-  roles:
-    - role: roles/pihole
+  tasks:
+    - block:
+        - import_role:
+            name: roles/pre-run
+        - import_role:
+            name: roles/pihole
+      rescue:
+        - include_role:
+            name: roles/pre-run
+        - include_role:
+            name: roles/restore
+      always:
+        - name: set pihole dns
+          lineinfile:
+            state: present
+            path: /etc/resolv.conf
+            regexp: '^nameserver'
+            line: 'nameserver {{ ansible_default_ipv4.address }}'
+          when: deployment | lower == "greenfield"

@@ -1,0 +1,5 @@
+---
+dest: "{{ _destination }}"
+name: "{{ _account_name }}"
+key: "{{ _account_key }}"
+azure: "{{ _upload }}"

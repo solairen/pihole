@@ -55,7 +55,7 @@
 - name: disable ubuntu dns
   systemd:
     name: systemd-resolved.service
-    state: stopped    
+    state: stopped
     enabled: no
   when: ansible_distribution == "Ubuntu"
 - name: reconfigure ubuntu dns (temporary)

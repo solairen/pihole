@@ -10,6 +10,7 @@ The last step of installation process is set DNS to PiHole (host) IP address.
 ### Prerequisites
 * [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 * [jmespath plugin](https://pypi.org/project/jmespath/)
+* [Azure blob](https://docs.microsoft.com/en-us/cli/azure/storage/blob?view=azure-cli-latest#az_storage_blob_upload)
 
 ### Configuration
 In `inventory.yml`, set **user**, **password** and **IP** on where PiHole should be installed.
@@ -25,12 +26,15 @@ linux:
           127.0.0.1:
 ```
 
-In `group_vars/all/common`, set **pihole version**, **time_zone** and **docker_compose version**
+In `group_vars/all/common`, set **pihole version**, **time_zone** ,**docker_compose version**, **destination**, **account_name**, **account_key**
 
 ```txt
 _ph_version: latest
 _time_zone: Europe/Warsaw
 _docker_compose_version: 1.27.4
+_destination: {containerName}
+_account_name: {accountName}
+_account_key: {accountKey}
 ```
 
 ### How to run:
