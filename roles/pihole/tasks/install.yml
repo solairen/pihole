@@ -1,8 +1,8 @@
 ---
-- name: "restoring PiHole {{ _ph_restore_version }}"
+- name: "run PiHole service in container"
   docker_container:
     name: "{{ pi_name }}"
-    image: "pihole/pihole:v{{ _ph_restore_version }}"
+    image: "pihole/pihole:v{{ _ph_version }}"
     state: started
     network_mode: pihole_net
     networks:

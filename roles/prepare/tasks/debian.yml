@@ -44,7 +44,7 @@
   loop: "{{ pihole_debian_udp_ports }}"
 - name: install docker-compose
   get_url:
-    url: https://github.com/docker/compose/releases/download/{{ version }}/docker-compose-Linux-x86_64
+    url: https://github.com/docker/compose/releases/download/{{ _docker_compose_version }}/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: '+x'
 - name: install required python packages

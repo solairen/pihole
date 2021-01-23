@@ -1,0 +1,7 @@
+---
+- name: set pihole dns
+  lineinfile:
+    state: present
+    path: /etc/resolv.conf
+    regexp: '^nameserver'
+    line: 'nameserver {{ ansible_default_ipv4.address }}'

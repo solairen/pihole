@@ -1,8 +1,8 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: v5.2.1
-_ph_restore_version: v5.2.1
+_ph_version: 5.2.1
+_ph_restore_version: 5.2.1
 _time_zone: Europe/Warsaw
 
 ################################

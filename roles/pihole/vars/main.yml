@@ -1,4 +1,3 @@
 ---
-time_zone: "{{ _time_zone }}"
-version: "{{ _ph_version }}"
 pi_name: pihole
+pi_net: pihole_net

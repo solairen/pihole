@@ -1,0 +1,11 @@
+---
+- name: "create PihHole docker network"
+  docker_network:
+    name: "{{ pi_net }}"
+    state: present
+  when: deployment | lower == "greenfield"
+- name: "remove PiHole container"
+  docker_container:
+    name: "{{ pi_name }}"
+    state: absent
+  when: deployment | lower == "brownfield"

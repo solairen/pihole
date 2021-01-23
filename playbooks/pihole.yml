@@ -5,19 +5,12 @@
   tasks:
     - block:
         - import_role:
-            name: roles/pre-run
-        - import_role:
             name: roles/pihole
-      rescue:
-        - include_role:
-            name: roles/pre-run
+      rescue: 
+        - name: do not restore in greenfield
+          fail:
+            msg: "Installation failed!"
+          when: deployment | lower == "greenfield"
         - include_role:
             name: roles/restore
-      always:
-        - name: set pihole dns
-          lineinfile:
-            state: present
-            path: /etc/resolv.conf
-            regexp: '^nameserver'
-            line: 'nameserver {{ ansible_default_ipv4.address }}'
-          when: deployment | lower == "greenfield"
+          when: deployment | lower == "brownfield"
