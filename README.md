@@ -28,7 +28,7 @@ linux:
           127.0.0.1:
 ```
 
-In `group_vars/all/common`, set **pihole version**, **time_zone** ,**docker_compose version**, **destination**, **account_name**, **account_key**
+In `group_vars/all/common`, set **pihole version**, **time_zone** ,**docker_compose version**, **upload**, **destination**, **account_name**, **account_key**
 
 ```txt
 _ph_version: latest               => PiHole version
