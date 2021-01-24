@@ -4,6 +4,9 @@
     name: "{{ pi_net }}"
     state: present
   when: deployment | lower == "greenfield"
+- name: "pull PiHole docker image"
+  docker_image:
+    name: "pihole/pihole:v{{ _ph_version }}"
 - name: "remove PiHole container"
   docker_container:
     name: "{{ pi_name }}"

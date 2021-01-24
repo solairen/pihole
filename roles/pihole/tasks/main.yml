@@ -2,4 +2,3 @@
 - import_tasks: before-install.yml
 - import_tasks: install.yml
 - import_tasks: after-install.yml
-  when: deployment | lower == "greenfield"
