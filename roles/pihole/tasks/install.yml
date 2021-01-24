@@ -14,8 +14,8 @@
       - "80:80/tcp"
       - "443:443/tcp"
     volumes:
-      - /etc-pihole/:/etc/pihole/
-      - /etc-dnsmasq.d/:/etc/dnsmasq.d/
+      - pihole-db:/etc/pihole/
+      - pihole-conf:/etc/dnsmasq.d/
     env:
       TZ: "{{ _time_zone }}"
     dns_servers:
