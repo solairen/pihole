@@ -1,10 +1,19 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: latest
+_ph_version: 5.5.1
+_ph_restore_version: 5.5
 _time_zone: Europe/Warsaw
 
 ################################
 #### DOCKER COMPOSE VERSION ####
 ################################
 _docker_compose_version: 1.27.4
+
+################################
+########## AZURE CLI ###########
+################################
+_upload: 0
+_destination: 
+_account_name: 
+_account_key: 

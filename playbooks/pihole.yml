@@ -2,5 +2,15 @@
 - hosts: pihole
   gather_facts: yes
   become: yes
-  roles:
-    - role: roles/pihole
+  tasks:
+    - block:
+        - import_role:
+            name: roles/pihole
+      rescue: 
+        - name: do not restore in greenfield
+          fail:
+            msg: "Installation failed!"
+          when: deployment | lower == "greenfield"
+        - include_role:
+            name: roles/restore
+          when: deployment | lower == "brownfield"

@@ -2,4 +2,6 @@
 - include: playbooks/check_deploy.yml
 - include: playbooks/prepare.yml
   when: deployment | lower == "greenfield"
-- include: playbooks/pihole.yml  
+- include: playbooks/backup.yml
+  when: deployment | lower == "brownfield"
+- include: playbooks/pihole.yml

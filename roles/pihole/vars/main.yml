@@ -1,5 +1,4 @@
 ---
-time_zone: "{{ _time_zone }}"
-version: "{{ _ph_version }}"
 pi_name: pihole
-paths: [ /etc-pihole/, /etc-dnsmasq.d/ ]
+pi_net: pihole_net
+pi_folders: [/etc-pihole, /etc-dnsmasq.d]

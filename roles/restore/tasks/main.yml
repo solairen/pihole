@@ -1,0 +1,31 @@
+---
+- name: "restoring PiHole {{ _ph_restore_version }}"
+  docker_container:
+    name: "{{ pi_name }}"
+    image: "pihole/pihole:v{{ _ph_restore_version }}"
+    state: started
+    network_mode: pihole_net
+    networks:
+      - name: "pihole_net"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - pihole-db:/etc/pihole/
+      - pihole-conf:/etc/dnsmasq.d/
+    env:
+      TZ: "{{ _time_zone }}"
+    dns_servers:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart_policy: unless-stopped
+- name: "check if PiHole is running"
+  docker_container_info:
+    name: pihole
+  retries: 15
+  delay: 3
+  register: result
+  until: "result.container['State']['Health']['Status'] == 'healthy'"
