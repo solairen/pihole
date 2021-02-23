@@ -33,12 +33,14 @@
 - name: add pihole tcp ports to firewall
   ufw:
     rule: allow
+    from_ip: "{{ _public_ip }}"
     port: "{{ item }}"
     proto: tcp
   loop: "{{ pihole_debian_tcp_ports }}"
 - name: add pihole udp ports to firewall
   ufw:
     rule: allow
+    from_ip: "{{ _public_ip }}"
     port: "{{ item }}"
     proto: udp
   loop: "{{ pihole_debian_udp_ports }}"

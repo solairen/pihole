@@ -13,6 +13,11 @@ The last step of installation process is set DNS to PiHole (host) IP address.
 * [Azure blob](https://docs.microsoft.com/en-us/cli/azure/storage/blob?view=azure-cli-latest#az_storage_blob_upload)
 
 ### Configuration
+
+#### Firewall
+On hosts where PiHole will be installed, ufw should be enabled and port 22 should be temporary added to rule.
+
+#### Inventory.yml
 In `inventory.yml`, set **IP**, **user**, **password** or **ssh_key** on where PiHole should be installed.</br>
 If **ssh_key** is used, comment **password**.</br>
 If **password** is used, comment **ssh_key**.</br>
@@ -28,6 +33,7 @@ linux:
           127.0.0.1:
 ```
 
+#### Group_vars/all/common
 In `group_vars/all/common`, set **pihole version**, **time_zone** ,**docker_compose version**, **upload**, **destination**, **account_name**, **account_key**
 
 ```txt
