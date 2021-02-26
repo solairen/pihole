@@ -1,4 +1,6 @@
 ---
 - import_tasks: before-install.yml
 - import_tasks: install.yml
+- import_tasks: restore_from_backup.yml
+  when: _restore_from_backup == 1 and deploy | deployment | lower == "greenfield"
 - import_tasks: after-install.yml

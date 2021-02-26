@@ -1,0 +1,14 @@
+---
+- name: download PiHole backup
+- name: untar PiHole backup
+- name: stop PiHole container
+- name: copy configuration file
+- name: copy database files
+- name: start PiHole container
+- name: check if PiHole is running
+  docker_container_info:
+    name: pihole
+  retries: 15
+  delay: 3
+  register: result
+  until: "result.container['State']['Health']['Status'] == 'healthy'"

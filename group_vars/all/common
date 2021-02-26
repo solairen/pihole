@@ -6,9 +6,10 @@ _ph_restore_version: 5.5
 _time_zone: Europe/Warsaw
 
 ################################
-#### DOCKER COMPOSE VERSION ####
+##### OTHER CONFIGURATION ######
 ################################
 _docker_compose_version: 1.27.4
+_restore_from_backup: 0
 
 ################################
 ########## PUBLIC IP ###########

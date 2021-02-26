@@ -1,17 +1,17 @@
 ---
-- name: "create PiHole docker network"
+- name: create PiHole docker network
   docker_network:
     name: "{{ pi_net }}"
     state: present
   when: deployment | lower == "greenfield"
-- name: "create PiHole folders"
+- name: create PiHole folders
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ pi_folders }}"
   when: deployment | lower == "greenfield"
-- name: "create PiHole etc-pihole volume"
+- name: create PiHole etc-pihole volume
   docker_volume:
     name: pihole-db
     driver_options:
@@ -19,7 +19,7 @@
       device: /etc-pihole
       o: bind
   when: deployment | lower == "greenfield"
-- name: "create PiHole config-pihole volume"
+- name: create PiHole config-pihole volume
   docker_volume:
     name: pihole-conf
     driver_options:
@@ -27,10 +27,10 @@
       device: /etc-dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
-- name: "pull PiHole docker image"
+- name: pull PiHole docker image
   docker_image:
     name: "pihole/pihole:v{{ _ph_version }}"
-- name: "remove PiHole container"
+- name: remove PiHole container
   docker_container:
     name: "{{ pi_name }}"
     state: absent
