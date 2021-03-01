@@ -1,4 +1,4 @@
 ---
 pi_name: pihole
 pi_net: pihole_net
-pi_folders: [/etc-pihole, /etc-dnsmasq.d]
+pi_folders: [/var/pihole/etc-pihole, /var/pihole/etc-dnsmasq.d]

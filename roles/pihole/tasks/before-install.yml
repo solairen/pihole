@@ -8,6 +8,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ ansible_user }}"
   with_items:
     - "{{ pi_folders }}"
   when: deployment | lower == "greenfield"
@@ -16,7 +17,7 @@
     name: pihole-db
     driver_options:
       type: none
-      device: /etc-pihole
+      device: /var/pihole/etc-pihole
       o: bind
   when: deployment | lower == "greenfield"
 - name: create PiHole config-pihole volume
@@ -24,7 +25,7 @@
     name: pihole-conf
     driver_options:
       type: none
-      device: /etc-dnsmasq.d
+      device: /var/pihole/etc-dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
 - name: pull PiHole docker image

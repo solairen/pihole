@@ -1,0 +1,41 @@
+---
+- name: download PiHole backup from Azure
+  shell: 'az storage blob download --account-name {{ _account_name }} --container {{ _container_name }} --name pihole.tar.gz --file pihole.tar.gz --account-key "{{ _account_key }}"'
+  when: _azure_upload == 1
+- name: stop PiHole container
+  become: yes
+  docker_container:
+    name: pihole
+    state: stopped
+- name: remove etc-pihole folder
+  become: yes
+  file:
+    path: /var/pihole/etc-pihole
+    state: absent
+- name: remove etc-dnsmasq.d folder
+  become: yes
+  file:
+    path: /var/pihole/etc-dnsmasq.d
+    state: absent
+- name: unarchive PiHole backup
+  unarchive:
+    src: $HOME/pihole.tar.gz
+    dest: /var/pihole/
+    remote_src: yes
+- name: start PiHole container
+  become: yes
+  docker_container:
+    name: pihole
+    state: started
+- name: check if PiHole is running
+  become: yes
+  docker_container_info:
+    name: pihole
+  retries: 15
+  delay: 3
+  register: result
+  until: "result.container['State']['Health']['Status'] == 'healthy'"
+- name: remove backup from host
+  file:
+    state: absent
+    path: $HOME/pihole.tar.gz

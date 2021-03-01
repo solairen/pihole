@@ -1,0 +1,14 @@
+---
+- name: backup PiHole files
+  archive:
+    path:
+      - /var/pihole/etc-dnsmasq.d/*
+      - /var/pihole/etc-pihole/*
+    dest: pihole.tar.gz
+    format: gz
+- name: send backup to Azure
+  shell: 'az storage blob upload --account-name {{ _account_name }} --container-name {{ _container_name }} --account-key "{{ _account_key }}" --name pihole.tar.gz --file pihole.tar.gz'
+- name: remove backups from host
+  file:
+    state: absent
+    path: $HOME/pihole.tar.gz

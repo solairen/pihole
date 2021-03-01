@@ -1,16 +1,2 @@
 ---
-- name: backup PiHole files
-  archive:
-    path:
-      - /etc-dnsmasq.d/*
-      - /etc-pihole/*
-    dest: pihole.tar.gz
-    format: gz
-- name: send backups to Azure
-  shell: 'az storage blob upload-batch --destination {{ dest }} --account-name {{ name }} --account-key "{{ key }}" -s $HOME --pattern pihole.tar.gz'
-  when: azure == 1
-- name: remove backups from host
-  file:
-    state: absent
-    path: $HOME/pihole.tar.gz
-  when: azure == 1
+- import_tasks: backup.yml

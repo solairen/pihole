@@ -19,7 +19,7 @@ _public_ip: 127.0.0.1
 ################################
 ########## AZURE CLI ###########
 ################################
-_upload: 0
-_destination: 
-_account_name: 
-_account_key: 
+_azure_upload: 0
+_container_name:
+_account_name:
+_account_key:

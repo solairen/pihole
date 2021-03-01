@@ -3,5 +3,7 @@
 - include: playbooks/prepare.yml
   when: deployment | lower == "greenfield"
 - include: playbooks/backup.yml
-  when: deployment | lower == "brownfield"
+  when: _azure_upload == 1 and deployment | lower == "brownfield"
 - include: playbooks/pihole.yml
+- include: playbooks/restore_from_backup.yml
+  when: _restore_from_backup == 1 and deployment | lower == "greenfield"
