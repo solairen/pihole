@@ -1,0 +1,5 @@
+---
+- hosts: pihole
+  gather_facts: yes
+  roles:
+    - role: roles/restore_from_backup

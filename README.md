@@ -11,11 +11,15 @@ The last step of installation process is set DNS to PiHole (host) IP address.
 * [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 * [jmespath plugin](https://pypi.org/project/jmespath/)
 * [Azure blob](https://docs.microsoft.com/en-us/cli/azure/storage/blob?view=azure-cli-latest#az_storage_blob_upload)
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/)
 
 ### Configuration
 
+#### Azure Blob Storage
+[Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) should be installed on host where PiHole is installed.
+
 #### Firewall
-On hosts where PiHole will be installed, ufw should be enabled and port 22 should be temporary added to rule.
+On hosts where PiHole will be installed, **UFW** should be enabled and port `22` should be temporary added to rule.
 
 #### Inventory.yml
 In `inventory.yml`, set **IP**, **user**, **password** or **ssh_key** on where PiHole should be installed.</br>
@@ -34,14 +38,16 @@ linux:
 ```
 
 #### Group_vars/all/common
-In `group_vars/all/common`, set **pihole version**, **time_zone** ,**docker_compose version**, **upload**, **destination**, **account_name**, **account_key**
+In `group_vars/all/common`, set:
 
 ```txt
 _ph_version: latest               => PiHole version
 _time_zone: Europe/Warsaw         => Set Time Zone
 _docker_compose_version: 1.27.4   => Docker-compose version
-_upload: 0                        => Upload to Azure Blob Storage. 1 - yes, 0 - no
-_destination: {containerName}     => Set Azure Blob Storage container name
+_public_ip: 127.0.0.1             => Set IP address that will be able to connect to host
+_restore_from_backup: 0           => Restore PiHole from backup during greenfield installation
+_azure_upload: 0                  => Upload to Azure Blob Storage. 1 - yes, 0 - no
+_container_name: {containerName}  => Set Azure Blob Storage container name
 _account_name: {accountName}      => Set Azure Blob Storage account name
 _account_key: {accountKey}        => Set Azure Blob Storage account key
 ```

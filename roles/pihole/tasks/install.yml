@@ -1,5 +1,5 @@
 ---
-- name: "run PiHole service in container"
+- name: run PiHole service in container
   docker_container:
     name: "{{ pi_name }}"
     image: "pihole/pihole:v{{ _ph_version }}"
@@ -22,7 +22,7 @@
       - 127.0.0.1
       - 1.1.1.1
     restart_policy: unless-stopped
-- name: "check if PiHole is running"
+- name: check if PiHole is running
   docker_container_info:
     name: pihole
   retries: 15

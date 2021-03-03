@@ -6,7 +6,7 @@
     regexp: '^nameserver'
     line: 'nameserver {{ ansible_default_ipv4.address }}'
   when: deployment | lower == "greenfield"
-- name: "remove old PiHole docker image"
+- name: remove old PiHole docker image
   docker_image:
     state: absent
     name: pihole/pihole
