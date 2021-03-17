@@ -8,7 +8,11 @@
     format: gz
 - name: send backup to Azure
   shell: 'az storage blob upload --account-name {{ _account_name }} --container-name {{ _container_name }} --account-key "{{ _account_key }}" --name pihole.tar.gz --file pihole.tar.gz'
-- name: remove backups from host
+  when: _azure_upload == 1
+- name: send backup to Linode
+  shell: 's3cmd put pihole.tar.gz s3://{{ _linode_bucket }}'
+  when: _linode_upload == 1
+- name: remove backup from host
   file:
     state: absent
     path: $HOME/pihole.tar.gz
