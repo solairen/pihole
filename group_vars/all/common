@@ -23,3 +23,9 @@ _azure_upload: 0
 _container_name:
 _account_name:
 _account_key:
+
+################################
+########## LINODE CLI ##########
+################################
+_linode_upload: 0
+_linode_bucket:
