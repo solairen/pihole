@@ -49,7 +49,9 @@ _ph_version: latest               => PiHole version
 _time_zone: Europe/Warsaw         => Set Time Zone
 _docker_compose_version: 1.27.4   => Docker-compose version
 _public_ip: 127.0.0.1             => Set IP address that will be able to connect to host
-_restore_from_backup: 0           => Restore PiHole from backup during greenfield installation. 1 - yes, 0 - no
+_restore_from_backup:             => Restore PiHole from backup during greenfield installation.
+  azure: 0                        => Restore from Azure. 1 - yes, 0 - no
+  linode: 0                       => Restore from Linode. 1 - yes, 0 - no
 _azure_upload: 0                  => Upload to Azure Blob Storage. 1 - yes, 0 - no
 _container_name: {containerName}  => Set Azure Blob Storage container name
 _account_name: {accountName}      => Set Azure Blob Storage account name
@@ -59,9 +61,10 @@ _linode_bucket: {bucketName}      => Linode Object Storage name
 ```
 
 #### Restore from backup
-To restore from backup, set 1 in variable `_restore_from_backup` and choose from where backup should be downloaded.</br>
-From Azure set 1 in variable `_azure_upload`.</br>
-From Linode set 1 in variable `_linode_upload`.
+To restore from backup, set 1 in variable `azure` or `linode` to choose from where backup should be downloaded.</br>
+If `azure` is set, enter proper values to the `_container_name`, `_account_name` and `_account_key`.</br>
+If `linode` is set, enter proper values to the `_linode_bucket` name.</br>
+Setting 1 into both variables: `azure` and `linode` will fail the process of installation. 
 
 ### How to run:
 ```bash

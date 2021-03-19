@@ -9,7 +9,9 @@ _time_zone: Europe/Warsaw
 ##### OTHER CONFIGURATION ######
 ################################
 _docker_compose_version: 1.27.4
-_restore_from_backup: 0
+_restore_from_backup:
+    azure: 0
+    linode: 0
 
 ################################
 ########## PUBLIC IP ###########
