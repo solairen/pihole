@@ -1,10 +1,10 @@
 ---
 - name: download PiHole backup from Azure
   shell: 'az storage blob download --account-name {{ _account_name }} --container {{ _container_name }} --name pihole.tar.gz --file pihole.tar.gz --account-key "{{ _account_key }}"'
-  when: _azure_upload == 1
+  when: _restore_from_backup.azure == 1
 - name: download PiHole backup from Linode
   shell: 's3cmd get s3://{{ _linode_bucket }}/pihole.tar.gz'
-  when: _linode_upload == 1
+  when: _restore_from_backup.linode == 1
 - name: stop PiHole container
   become: yes
   docker_container:
