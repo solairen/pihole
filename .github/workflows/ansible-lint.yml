@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Lint Ansible Playbook
-      uses: ansible/ansible-lint-action@v4.1.0.post0
+      uses: ansible/ansible-lint-action@v4.1.0
       with:
         targets: "start.yml"
         override-deps: |
