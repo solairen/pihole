@@ -3,8 +3,8 @@
   apt:
     name: "{{ item }}"
     state: present
-    update_cache: yes
-  loop: 
+    update_cache: true
+  loop:
     - "{{ debian_packages }}"
     - "{{ python_packages }}"
 - name: add docker gpg key
@@ -15,17 +15,17 @@
   apt_repository:
     repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
     state: present
-    update_cache: yes
+    update_cache: true
 - name: install docker
   apt:
     name: "{{ item }}"
     state: present
-    update_cache: yes
+    update_cache: true
   loop: "{{ docker_packages }}"
 - name: enable firewall, docker services
   service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: true
     state: restarted
   loop:
     - ufw
@@ -58,7 +58,7 @@
   systemd:
     name: systemd-resolved.service
     state: stopped
-    enabled: no
+    enabled: false
   when: ansible_distribution == "Ubuntu"
 - name: reconfigure ubuntu dns (temporary)
   lineinfile:

@@ -1,16 +1,18 @@
 ---
 - hosts: pihole
-  gather_facts: yes
-  become: yes
+  gather_facts: true
+  become: true
   tasks:
     - block:
-        - import_role:
+        - name: install PiHole
+          import_role:
             name: roles/pihole
-      rescue: 
+      rescue:
         - name: do not restore in greenfield
           fail:
             msg: "Installation failed!"
           when: deployment | lower == "greenfield"
-        - include_role:
+        - name: restore on fail
+          include_role:
             name: roles/restore
           when: deployment | lower == "brownfield"

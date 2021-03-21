@@ -1,17 +1,21 @@
 ---
 - hosts: localhost
-  gather_facts: no
-  become: no
+  gather_facts: false
+  become: false
   tasks:
-    - debug:
+    - name: check deployment
+      debug:
         msg: "Deployment: {{ deployment | lower }}."
       failed_when: deployment | lower not in [ "greenfield", "brownfield" ]
-    - fail:
+    - name: fail when azure and linode are selected to restore from backup
+      fail:
         msg: "Azure and Linode in _restore_from_backup are set to {{ _restore_from_backup.azure }} and {{ _restore_from_backup.linode }}."
       when: _restore_from_backup.azure >= 1 and _restore_from_backup.linode >= 1
-    - debug:
+    - name: check if _azure_upload is selected
+      debug:
         msg: "_azure_upload is set to {{ _azure_upload }}."
       failed_when: _azure_upload >= 2
-    - debug:
+    - name: check if _linode_upload is selected
+      debug:
         msg: "_linode_upload is set to {{ _linode_upload }}."
       failed_when: _linode_upload >= 2

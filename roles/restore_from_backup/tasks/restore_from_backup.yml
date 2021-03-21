@@ -6,17 +6,17 @@
   shell: 's3cmd get s3://{{ _linode_bucket }}/pihole.tar.gz'
   when: _restore_from_backup.linode == 1
 - name: stop PiHole container
-  become: yes
+  become: true
   docker_container:
     name: pihole
     state: stopped
 - name: remove etc-pihole folder
-  become: yes
+  become: true
   file:
     path: /var/pihole/etc-pihole
     state: absent
 - name: remove etc-dnsmasq.d folder
-  become: yes
+  become: true
   file:
     path: /var/pihole/etc-dnsmasq.d
     state: absent
@@ -24,14 +24,14 @@
   unarchive:
     src: $HOME/pihole.tar.gz
     dest: /var/pihole/
-    remote_src: yes
+    remote_src: true
 - name: start PiHole container
-  become: yes
+  become: true
   docker_container:
     name: pihole
     state: started
 - name: check if PiHole is running
-  become: yes
+  become: true
   docker_container_info:
     name: pihole
   retries: 15
