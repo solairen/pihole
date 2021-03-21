@@ -11,8 +11,5 @@ jobs:
     - name: Lint Ansible Playbook
       uses: ansible/ansible-lint-action@v4.1.0
       with:
-        targets: "start.yml"
-        override-deps: |
-          ansible==2.10.5
-          ansible-lint==5.0.4
+        entryPoint: "start.yml"
         args: "-p"
