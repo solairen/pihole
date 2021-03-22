@@ -8,8 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Lint Ansible Playbook
-      uses: ansible/ansible-lint-action@master
-      with:
-        targets: "start.yml"
-        args: "-p"
+    - name: debug
+      run: pwd
+    #- name: Lint Ansible Playbook
+    #  uses: ansible/ansible-lint-action@master
+    #  with:
+    #    targets: start.yml
