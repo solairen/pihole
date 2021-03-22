@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Lint Ansible Playbook
-      uses: ansible/ansible-lint-action@master
-      with:
-        targets: "./start.yml"
-        args: "-x 204,403,301,305,701,401,303,208,306"
+    - name: debug
+      run: ls -la
+    #- name: Lint Ansible Playbook
+    #  uses: ansible/ansible-lint-action@master
+    #  with:
+    #    targets: "./start.yml"
+    #    args: "-x 204,403,301,305,701,401,303,208,306"
