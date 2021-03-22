@@ -8,11 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Lint Ansible Playbook
+    - name: Check yaml files
       uses: ansible/ansible-lint-action@master
       with:
-        targets: /home/runner/work/pihole/pihole/start.yml
-    - name: test1
-      uses: ansible/ansible-lint-action@master
-      with:
-        targets: /home/runner/work/pihole/pihole/roles/backup/tasks/backup.yml
+        targets: |
+          playbooks/*.yml
+          roles/backup/tasks/*.yml
+          roles/pihole/tasks/*.yml
+          roles/pihole/vars/main.yml
+          roles/prepare/tasks/*.yml
+          roles/preprare/vars/main.yml
+          roles/restore/tasks/*.yml
+          roles/restore/vars/main.yml
+          roles/restore_from_backup/tasks/*.yml
