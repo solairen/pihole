@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: debug
-      run: pwd
-    #- name: Lint Ansible Playbook
-    #  uses: ansible/ansible-lint-action@master
-    #  with:
-    #    targets: start.yml
+    - name: Lint Ansible Playbook
+      uses: ansible/ansible-lint-action@master
+      with:
+        targets: /home/runner/work/pihole/pihole/start.yml
+    - name: test1
+      uses: ansible/ansible-lint-action@master
+      with:
+        targets: /home/runner/work/pihole/pihole/roles/backup/tasks/backup.yml
