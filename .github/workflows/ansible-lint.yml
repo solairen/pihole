@@ -17,7 +17,7 @@ jobs:
           roles/pihole/tasks/*.yml
           roles/pihole/vars/main.yml
           roles/prepare/tasks/*.yml
-          roles/preprare/vars/main.yml
+          roles/prepare/vars/main.yml
           roles/restore/tasks/*.yml
           roles/restore/vars/main.yml
           roles/restore_from_backup/tasks/*.yml
