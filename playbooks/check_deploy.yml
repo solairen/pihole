@@ -16,7 +16,7 @@
       when: deployment | lower == "brownfield"
     - name: check if restore from backup is selected
       debug:
-        msg: 
+        msg:
           - "Restore from Azure: {{ _restore_from_backup.azure }}"
           - "Restore from Linode {{ _restore_from_backup.linode }}"
       failed_when: _restore_from_backup.azure >= 1 and _restore_from_backup.linode >= 1 or _restore_from_backup.azure >= 2 or _restore_from_backup.linode >= 2
