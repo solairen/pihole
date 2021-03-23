@@ -7,15 +7,17 @@
       debug:
         msg: "Deployment: {{ deployment | lower }}."
       failed_when: deployment | lower not in [ "greenfield", "brownfield" ]
-    - name: fail when azure and linode are selected to restore from backup
-      fail:
-        msg: "Azure and Linode in _restore_from_backup are set to {{ _restore_from_backup.azure }} and {{ _restore_from_backup.linode }}."
-      when: _restore_from_backup.azure >= 1 and _restore_from_backup.linode >= 1
-    - name: check if _azure_upload is selected
+    - name: check if send backup is selected
       debug:
-        msg: "_azure_upload is set to {{ _azure_upload }}."
-      failed_when: _azure_upload >= 2
-    - name: check if _linode_upload is selected
+        msg: 
+          - "Send to Azure: {{ _azure_upload }}"
+          - "Send to Linode: {{ _linode_upload }}"
+      failed_when: _azure_upload >= 2 and _linode_upload >= 2 or _azure_upload >= 2 or _linode_upload >= 2
+      when: deployment | lower == "brownfield"
+    - name: check if restore from backup is selected
       debug:
-        msg: "_linode_upload is set to {{ _linode_upload }}."
-      failed_when: _linode_upload >= 2
+        msg: 
+          - "Restore from Azure: {{ _restore_from_backup.azure }}"
+          - "Restore from Linode {{ _restore_from_backup.linode }}"
+      failed_when: _restore_from_backup.azure >= 1 and _restore_from_backup.linode >= 1 or _restore_from_backup.azure >= 2 or _restore_from_backup.linode >= 2
+      when: deployment | lower == "greenfield"

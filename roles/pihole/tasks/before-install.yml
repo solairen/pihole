@@ -9,7 +9,8 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ ansible_user }}"
-    mode: 0644
+    group: "{{ ansible_user }}"
+    mode: 0755
   with_items:
     - "{{ pi_folders }}"
   when: deployment | lower == "greenfield"
