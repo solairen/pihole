@@ -1,0 +1,4 @@
+---
+acc: "{{ _account_name }}"
+cont: "{{ _container_name }}"
+key: "{{ _account_key }}"

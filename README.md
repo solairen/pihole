@@ -1,5 +1,5 @@
 ### About:
-This ansible script installs PiHole in container on Ubuntu, Debian.<br/>
+This ansible script installs PiHole container on Ubuntu, Debian.<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains own dns that will be disabled during the installation process.<br/>
 The last step of installation process is set DNS to PiHole (host) IP address.
 
