@@ -9,7 +9,7 @@
       failed_when: deployment | lower not in [ "greenfield", "brownfield" ]
     - name: check if send backup is selected
       debug:
-        msg: 
+        msg:
           - "Send to Azure: {{ _azure_upload }}"
           - "Send to Linode: {{ _linode_upload }}"
       failed_when: _azure_upload >= 2 and _linode_upload >= 2 or _azure_upload >= 2 or _linode_upload >= 2
