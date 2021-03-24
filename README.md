@@ -26,7 +26,7 @@ The last step of installation process is set DNS to PiHole (host) IP address.
 On hosts where PiHole will be installed, **UFW** should be enabled and port `22` should be temporary added to rule.
 
 #### Inventory.yml
-In `inventory.yml`, set **IP**, **user**, **password** or **ssh_key** on where PiHole should be installed.</br>
+In `inventory.yml`, set **IP**, **user**, **password**, **ssh port** or **ssh_key** on where PiHole should be installed.</br>
 If **ssh_key** is used, comment **password**.</br>
 If **password** is used, comment **ssh_key**.</br>
 ```yml
@@ -34,6 +34,7 @@ linux:
     vars:
       ansible_ssh_user: user
       ansible_ssh_pass: password
+      ansible_port: 22
       ansible_ssh_private_key_file: <path_to_key>
     children:
       pihole:
