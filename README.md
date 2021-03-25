@@ -46,19 +46,20 @@ linux:
 In `group_vars/all/common`, set:
 
 ```txt
-_ph_version: latest               => PiHole version
-_time_zone: Europe/Warsaw         => Set Time Zone
-_docker_compose_version: 1.27.4   => Docker-compose version
-_public_ip: 127.0.0.1             => Set IP address that will be able to connect to host
+_ph_version: latest               => PiHole version.
+_ph_restore_version:              => Set PiHole version to restore if installation failed during brownfield.
+_time_zone: Europe/Warsaw         => Set Time Zone.
+_docker_compose_version: 1.27.4   => Docker-compose version.
+_public_ip: 127.0.0.1             => Set IP address that will be able to connect to host.
 _restore_from_backup:             => Restore PiHole from backup during greenfield installation.
-  azure: 0                        => Restore from Azure. 1 - yes, 0 - no
-  linode: 0                       => Restore from Linode. 1 - yes, 0 - no
-_azure_upload: 0                  => Upload to Azure Blob Storage. 1 - yes, 0 - no
-_container_name: {containerName}  => Set Azure Blob Storage container name
-_account_name: {accountName}      => Set Azure Blob Storage account name
-_account_key: {accountKey}        => Set Azure Blob Storage account key
-_linode_upload: 0                 => Upload to Linode Ojbect Storage. 1 - yes, 0 - no
-_linode_bucket: {bucketName}      => Linode Object Storage name
+  azure: 0                        => Restore from Azure. 1 - yes, 0 - no.
+  linode: 0                       => Restore from Linode. 1 - yes, 0 - no.
+_azure_upload: 0                  => Upload to Azure Blob Storage. 1 - yes, 0 - no.
+_container_name: {containerName}  => Set Azure Blob Storage container name.
+_account_name: {accountName}      => Set Azure Blob Storage account name.
+_account_key: {accountKey}        => Set Azure Blob Storage account key.
+_linode_upload: 0                 => Upload to Linode Ojbect Storage. 1 - yes, 0 - no.
+_linode_bucket: {bucketName}      => Linode Object Storage name.
 ```
 
 #### Restore from backup
