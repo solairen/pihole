@@ -30,6 +30,14 @@
       device: /var/pihole/etc-dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
+- name: create PiHole log volume
+  docker_volume:
+    name: pihole-log
+    driver_options:
+      type: none
+      device: /var/pihole/logs
+      o: bind
+  when: deployment | lower == "greenfield"
 - name: pull PiHole docker image
   docker_image:
     name: "pihole/pihole:v{{ _ph_version }}"

@@ -17,3 +17,4 @@
   file:
     state: absent
     path: $HOME/pihole.tar.gz
+  when: _azure_upload == 1 or _linode_upload == 1
