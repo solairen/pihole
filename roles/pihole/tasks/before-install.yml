@@ -14,12 +14,12 @@
   with_items:
     - "{{ pi_folders }}"
   when: deployment | lower == "greenfield"
-- name: create PiHole etc-pihole volume
+- name: create PiHole pihole volume
   docker_volume:
     name: pihole-db
     driver_options:
       type: none
-      device: /var/pihole/etc-pihole
+      device: /var/pihole/pihole
       o: bind
   when: deployment | lower == "greenfield"
 - name: create PiHole config-pihole volume
@@ -27,7 +27,7 @@
     name: pihole-conf
     driver_options:
       type: none
-      device: /var/pihole/etc-dnsmasq.d
+      device: /var/pihole/dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
 - name: create PiHole log volume

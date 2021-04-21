@@ -2,8 +2,8 @@
 - name: backup PiHole files
   archive:
     path:
-      - /var/pihole/etc-dnsmasq.d/*
-      - /var/pihole/etc-pihole/*
+      - /var/pihole/dnsmasq.d/*
+      - /var/pihole/pihole/*
     dest: pihole.tar.gz
     format: gz
     mode: 0755
@@ -13,8 +13,17 @@
 - name: send backup to Linode
   shell: 's3cmd put pihole.tar.gz s3://{{ _linode_bucket }}'
   when: _linode_upload == 1
-- name: remove backup from host
+- name: send backup to AWS
+  amazon.aws.aws_s3:
+    aws_access_key: "{{ _aws_access_key }}"
+    aws_secret_key: "{{ _aws_secret_key }}"
+    mode: put
+    src: pihole.tar.gz
+    object: pihole/pihole.tar.gz
+    bucket: "{{ _aws_bucket }}"
+  when: _aws_upload == 1
+- name: remove backup from the host
   file:
     state: absent
     path: $HOME/pihole.tar.gz
-  when: _azure_upload == 1 or _linode_upload == 1
+  when: _azure_upload == 1 or _linode_upload == 1 or _aws_upload == 1
