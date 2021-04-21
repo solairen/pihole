@@ -4,9 +4,9 @@
     name: "{{ pi_name }}"
     image: "pihole/pihole:v{{ _version }}"
     state: started
-    network_mode: pihole-network
+    network_mode: "{{ pi_net }}"
     networks:
-      - name: "pihole-network"
+      - name: "{{ pi_net }}"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
