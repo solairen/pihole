@@ -78,7 +78,7 @@ To restore from backup, set 1 in variable `azure`, `linode` or `aws` to choose f
 If `azure` is set, enter proper values to the `_container_name`, `_account_name` and `_account_key`.</br>
 If `linode` is set, enter proper values to the `_linode_bucket`.</br>
 If `aws` is set, enter proper values to the `_aws_bucket`, `_aws_access_key` and `_aws_secret_key`.</br>
-Setting 1 into both variables: `azure` and `linode` will fail the process of installation. 
+Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail the process of installation. 
 
 ### How to run:
 ```bash
