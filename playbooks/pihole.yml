@@ -5,6 +5,9 @@
   tasks:
     - block:
         - name: install PiHole
+          vars:
+            _version: "{{ _ph_version }}"
+            _task_name: "run PiHole in version: {{ _ph_version }}"
           import_role:
             name: roles/pihole
       rescue:
@@ -13,6 +16,8 @@
             msg: "Installation failed!"
           when: deployment | lower == "greenfield"
         - name: restore on fail
-          include_role:
-            name: roles/restore
+          vars:
+            _version: "{{ _ph_restore_version }}"
+            _task_name: "restore PiHole to version: {{ _ph_restore_version }}"
+          include: /ansible/roles/pihole/tasks/install.yml
           when: deployment | lower == "brownfield"

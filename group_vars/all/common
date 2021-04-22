@@ -12,6 +12,7 @@ _docker_compose_version: 1.27.4
 _restore_from_backup:
     azure: 0
     linode: 0
+    aws: 0
 
 ################################
 ########## PUBLIC IP ###########
@@ -27,7 +28,15 @@ _account_name:
 _account_key:
 
 ################################
-########## LINODE CLI ##########
+############ LINODE ############
 ################################
 _linode_upload: 0
 _linode_bucket:
+
+################################
+############## AWS #############
+################################
+_aws_upload: 0
+_aws_bucket:
+_aws_access_key:
+_aws_secret_key:
