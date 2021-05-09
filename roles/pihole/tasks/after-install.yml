@@ -15,7 +15,7 @@
   register: find_result
   when: deployment | lower == "greenfield"
 - name: copy netplan config file
-  become: true  
+  become: true
   template:
     src: ../roles/pihole/files/config.yml.j2
     dest: "/etc/netplan/{{ find_result.files[0].path | basename }}"
@@ -27,7 +27,7 @@
 - name: apply netplan config
   become: true
   shell: "netplan --debug apply"
-  when: deployment | lower == "greenfield"  
+  when: deployment | lower == "greenfield"
 - name: start dns server
   systemd:
     name: systemd-resolved.service
