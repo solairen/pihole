@@ -1,10 +1,51 @@
 ---
-- name: set pihole dns
+- name: disable dns on port 53 in resolved.conf
+  become: true
   lineinfile:
     state: present
+    path:  /etc/systemd/resolved.conf
+    regexp: '^#DNSStubListener'
+    line: 'DNSStubListener=no'
+  when: deployment | lower == "greenfield"
+- name: get netplan config file
+  find:
+    paths: /etc/netplan
+    file_type: file
+    patterns: '*.yaml'
+  register: find_result
+  when: deployment | lower == "greenfield"
+- name: copy netplan config file
+  become: true  
+  template:
+    src: ../roles/pihole/files/config.yml.j2
+    dest: "/etc/netplan/{{ find_result.files[0].path | basename }}"
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: false
+  when: deployment | lower == "greenfield"
+- name: apply netplan config
+  become: true
+  shell: "netplan --debug apply"
+  when: deployment | lower == "greenfield"  
+- name: start dns server
+  systemd:
+    name: systemd-resolved.service
+    state: started
+    enabled: true
+  when: deployment | lower == "greenfield"
+- name: remove resolv.conf
+  become: true
+  file:
     path: /etc/resolv.conf
-    regexp: '^nameserver'
-    line: 'nameserver {{ ansible_default_ipv4.address }}'
+    state: absent
+  when: deployment | lower == "greenfield"
+- name: create symbolic link to resolv.conf
+  become: true
+  file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
   when: deployment | lower == "greenfield"
 - name: remove old PiHole docker image
   docker_image:

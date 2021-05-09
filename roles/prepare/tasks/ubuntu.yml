@@ -54,15 +54,13 @@
     name: "{{ item }}"
     executable: pip3
   loop: "{{ python_pip_packages }}"
-- name: disable ubuntu dns
+- name: disable dns server (temporary)
   systemd:
     name: systemd-resolved.service
     state: stopped
     enabled: false
-  when: ansible_distribution == "Ubuntu"
 - name: reconfigure ubuntu dns (temporary)
   lineinfile:
     path: /etc/resolv.conf
     regexp: '^nameserver'
     line: nameserver 8.8.8.8
-  when: ansible_distribution == "Ubuntu"

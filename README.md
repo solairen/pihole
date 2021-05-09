@@ -1,11 +1,10 @@
 ### About:
-This ansible script installs PiHole container on Ubuntu, Debian.<br/>
+This ansible script installs PiHole container on Ubuntu.<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains its DNS that will be disabled during the installation process.<br/>
 The last step of the installation process is to set DNS to PiHole (host) IP address.
 
 ### Supported OS:
-* Debian 9/10
-* Ubuntu 18.04/20.04
+* Ubuntu 20.04
 
 ### Prerequisites
 * [Ansible](https://docs.ansible.com/ansible/latest/index.html)
@@ -82,5 +81,5 @@ Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail
 
 ### How to run:
 ```bash
-ansible-playbook -i inventory.yml start.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
+ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
