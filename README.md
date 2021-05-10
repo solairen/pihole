@@ -55,7 +55,6 @@ _ph_version: latest               => PiHole version.
 _ph_restore_version:              => Set PiHole version to restore if installation failed during brownfield.
 _time_zone: Europe/Warsaw         => Set Time Zone.
 _docker_compose_version: 1.27.4   => Docker-compose version.
-_public_ip: 127.0.0.1             => Set IP address that will be able to connect to host.
 _restore_from_backup:             => Restore PiHole from backup during greenfield installation.
   azure: 0                        => Restore from Azure. 1 - yes, 0 - no.
   linode: 0                       => Restore from Linode. 1 - yes, 0 - no.

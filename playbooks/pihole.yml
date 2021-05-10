@@ -19,5 +19,5 @@
           vars:
             _version: "{{ _ph_restore_version }}"
             _task_name: "restore PiHole to version: {{ _ph_restore_version }}"
-          include: /ansible/roles/pihole/tasks/install.yml
+          include: ../roles/pihole/tasks/install.yml
           when: deployment | lower == "brownfield"
