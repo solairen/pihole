@@ -22,28 +22,11 @@
     state: present
     update_cache: true
   loop: "{{ docker_packages }}"
-- name: enable firewall, docker services
+- name: enable docker service
   service:
-    name: "{{ item }}"
+    name: docker
     enabled: true
     state: restarted
-  loop:
-    - ufw
-    - docker
-- name: add pihole tcp ports to firewall
-  ufw:
-    rule: allow
-    from_ip: "{{ _public_ip }}"
-    port: "{{ item }}"
-    proto: tcp
-  loop: "{{ pihole_debian_tcp_ports }}"
-- name: add pihole udp ports to firewall
-  ufw:
-    rule: allow
-    from_ip: "{{ _public_ip }}"
-    port: "{{ item }}"
-    proto: udp
-  loop: "{{ pihole_debian_udp_ports }}"
 - name: install docker-compose
   get_url:
     url: https://github.com/docker/compose/releases/download/{{ _docker_compose_version }}/docker-compose-Linux-x86_64
@@ -54,15 +37,13 @@
     name: "{{ item }}"
     executable: pip3
   loop: "{{ python_pip_packages }}"
-- name: disable ubuntu dns
+- name: disable dns server (temporary)
   systemd:
     name: systemd-resolved.service
     state: stopped
     enabled: false
-  when: ansible_distribution == "Ubuntu"
 - name: reconfigure ubuntu dns (temporary)
   lineinfile:
     path: /etc/resolv.conf
     regexp: '^nameserver'
     line: nameserver 8.8.8.8
-  when: ansible_distribution == "Ubuntu"

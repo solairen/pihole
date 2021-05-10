@@ -22,6 +22,7 @@
     dns_servers:
       - 127.0.0.1
       - 1.1.1.1
+    hostname: "{{ pi_name }}"
     restart_policy: unless-stopped
 - name: check if PiHole is running
   docker_container_info:
