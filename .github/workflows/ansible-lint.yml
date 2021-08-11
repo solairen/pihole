@@ -15,13 +15,13 @@ jobs:
       uses: ansible/ansible-lint-action@master
       with:
         targets: |
-          playbooks/*.yml
-          roles/backup/tasks/*.yml
-          roles/backup/vars/*.yml
-          roles/pihole/tasks/*.yml
-          roles/pihole/vars/*.yml
-          roles/prepare/tasks/*.yml
-          roles/prepare/vars/*.yml
-          roles/restore_from_backup/tasks/*.yml
-          roles/restore_from_backup/vars/*.yml
+          ansible/playbooks/*.yml
+          ansible/roles/backup/tasks/*.yml
+          ansible/roles/backup/vars/*.yml
+          ansible/roles/pihole/tasks/*.yml
+          ansible/roles/pihole/vars/*.yml
+          ansible/roles/prepare/tasks/*.yml
+          ansible/roles/prepare/vars/*.yml
+          ansible/roles/restore_from_backup/tasks/*.yml
+          ansible/roles/restore_from_backup/vars/*.yml
         args: -x command-instead-of-shell,204
