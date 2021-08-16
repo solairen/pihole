@@ -91,6 +91,9 @@ If `aws` is set, enter proper values to the `_aws_bucket`, `_aws_access_key` and
 Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail the process of installation. 
 
 ### How to run:
+
+> **_NOTE:_** If ``ansible_ssh_private_key_file`` is used, remove ``--ask-become-pass`` from below command.
+
 ```bash
 ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
