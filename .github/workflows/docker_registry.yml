@@ -22,22 +22,3 @@ jobs:
           file: Docker/Dockerfile
           push: true
           tags: moleszek/pihole:latest
-      #- name: Checkout docker_tag repository
-      #  uses: actions/checkout@v2
-      #  with:
-      #    repository: ${{ github.repository_owner }}/docker_tag
-      #    ref: solairen/issue7
-      #    token: ${{ secrets.token }}
-      #    path: ./.github/actions/docker_tag
-      #- name: Push docker image to Docker Hub
-      #  uses: ./.github/actions/docker_tag
-      #  with:
-      #    username: ${{ secrets.docker_username }}
-      #    password: ${{ secrets.docker_token }}
-      #    repository: moleszek/pihole
-      #    path: Docker
-      #    tag_latest: true
-      #    push: true
-      #    github: false
-      #    token: ${{ secrets.token }}
-      #    owner: ${{ github.repository_owner }}
