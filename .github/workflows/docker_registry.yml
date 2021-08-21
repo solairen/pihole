@@ -1,0 +1,24 @@
+name: Docker registry
+on: [ workflow_dispatch ]
+
+jobs:
+  push_to_docker_registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pihole repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          token: ${{ secrets.token }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.docker_username }}
+          password: ${{ secrets.docker_token }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: Docker/Dockerfile
+          push: true
+          tags: moleszek/pihole:latest

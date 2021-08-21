@@ -1,3 +1,15 @@
+<p align="left">
+    <a href="https://hub.docker.com/r/moleszek/pihole">
+        <img alt="Docker Image Version (tag latest semver)" src="https://img.shields.io/docker/v/moleszek/pihole/latest">
+    </a>
+    <a href="https://hub.docker.com/r/moleszek/pihole">
+        <img alt="Docker Image Size (tag)" src="https://img.shields.io/docker/image-size/moleszek/pihole/latest">
+    </a>
+    <a href="https://hub.docker.com/r/moleszek/pihole">
+        <img alt="Docker Automated build" src="https://img.shields.io/docker/automated/moleszek/pihole">
+    </a>
+</p>
+
 ### About:
 This ansible script installs PiHole container on Ubuntu.<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains its DNS that will be disabled during the installation process.<br/>
@@ -79,6 +91,9 @@ If `aws` is set, enter proper values to the `_aws_bucket`, `_aws_access_key` and
 Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail the process of installation. 
 
 ### How to run:
+
+> **_NOTE:_** If ``ansible_ssh_private_key_file`` is used, remove ``--ask-become-pass`` from below command.
+
 ```bash
 ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
