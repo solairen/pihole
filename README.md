@@ -101,7 +101,7 @@ Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that wi
 
 #### How to run
 
-Set environment variables on host from where the ansible scirpt will be run or inside the docker container (moleszek/pihole:latest) e.g:
+Set environment variables on host from where the ansible scirpt will be run or inside the docker container ([moleszek/pihole:latest](https://hub.docker.com/r/moleszek/pihole)) e.g:
 
 ```bash
 export USER=testuser
