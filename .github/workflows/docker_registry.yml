@@ -14,6 +14,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          file: docker/Dockerfile
+          file: Docker/Dockerfile
           push: true
           tags: moleszek/pihole:latest
