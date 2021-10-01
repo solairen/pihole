@@ -19,4 +19,4 @@ jobs:
         ref: ${{ github.ref }}
         token: ${{ secrets.token }}
     - name: Build dockerfile
-      run: docker build -t pihole -f Docker/Dockerfile .
+      run: docker build -t pihole -f docker/Dockerfile .

@@ -97,3 +97,27 @@ Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail
 ```bash
 ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
+
+### Additional information
+Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that will replace ``common`` and ``inventory.yml`` files with proper values based on environment variables.
+
+#### How to run
+
+Set environment variables on host from where the ansible scirpt will be run or inside the docker container (moleszek/pihole:latest) e.g:
+
+```bash
+export USER=testuser
+export PASSWORD=testpassword
+export AWSUPLOAD=1
+export AWSBUCKET=testbucket
+export AWSACCESSKEY=1234
+export AWSSECRETKEY=56789
+```
+
+Run script:
+
+```bash
+sh scripts/change_variable.sh
+```
+
+Old ``common`` and ``inventory.yml`` file will be replace with new one and with values that has been taken from environment variable.
