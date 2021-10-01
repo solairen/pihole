@@ -9,14 +9,15 @@ on:
 
 jobs:
   test_docker_image:
+    name: Test docker image
     runs-on: ubuntu-latest
     container: docker:stable
     steps:
-    - name: Checkout pihole repository
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref }}
-        token: ${{ secrets.token }}
-    - name: Build dockerfile
-      run: docker build -t pihole -f Docker/Dockerfile .
+      - name: Checkout pihole repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          token: ${{ secrets.token }}
+      - name: Build dockerfile
+        run: docker build -t pihole -f Docker/Dockerfile .

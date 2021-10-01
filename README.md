@@ -32,12 +32,12 @@ The last step of the installation process is to set DNS to PiHole (host) IP addr
 [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) should be installed on the host where PiHole is installed and Azure Blob Storage should be created on Azure.
 
 #### Linode Object Storage
-[s3cmd](https://www.linode.com/docs/guides/how-to-use-object-storage/#s3cmd) should be installed and configured on the host where PiHole is installed and Object Storage should be created on Linode.
+[s3cmd](https://www.linode.com/docs/guides/how-to-use-object-storage/#s3cmd) should be installed on the host where PiHole is installed and Object Storage should be created on Linode.
 
-#### AWS Object Storage
-[boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) should be installed on the host where PiHole is installed and S3 Bucket should be created on AWS.
+#### AWS S3 Object Storage
+[s3cmd](https://github.com/s3tools/s3cmd) should be installed on the host where PiHole is installed and S3 Bucket should be created on AWS.
 
-It is a possibility to upload backup to all cloud providers at one time, to do that those programs: **azure CLI**, **s3cmd**, **boto3** must be installed on the host where PiHole is installed.
+It is a possibility to upload backup to all cloud providers at one time, to do that those programs: **azure CLI**, **s3cmd** must be installed on the host where PiHole is installed.
 
 #### Firewall
 On host where PiHole will be installed, **UFW** should be enabled and a port that has been configured to ssh connection should be temporary added to the rule.
@@ -92,8 +92,30 @@ Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail
 
 ### How to run:
 
-> **_NOTE:_** If ``ansible_ssh_private_key_file`` is used, remove ``--ask-become-pass`` from below command.
-
 ```bash
 ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
+
+### Additional information
+Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that will replace ``common`` and ``inventory.yml`` files with proper values based on environment variables.
+
+#### How to run
+
+Set environment variables on host from where the ansible scirpt will be run or inside the docker container ([moleszek/pihole:latest](https://hub.docker.com/r/moleszek/pihole)) e.g:
+
+```bash
+export USER=testuser
+export PASSWORD=testpassword
+export AWSUPLOAD=1
+export AWSBUCKET=testbucket
+export AWSACCESSKEY=1234
+export AWSSECRETKEY=56789
+```
+
+Run script:
+
+```bash
+sh scripts/change_variable.sh
+```
+
+Old ``common`` and ``inventory.yml`` file will be replace with new one and with values that has been taken from environment variable.

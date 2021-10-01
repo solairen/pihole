@@ -1,8 +1,8 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: 5.5.1
-_ph_restore_version: 5.5
+_ph_version: $VERSION
+_ph_restore_version: $RESTOREVERSION
 _time_zone: Europe/Warsaw
 
 ################################
@@ -17,24 +17,24 @@ _restore_from_backup:
 ################################
 ########## AZURE CLI ###########
 ################################
-_azure_upload: 0
-_container_name:
-_account_name:
-_account_key:
+_azure_upload: $AZUREUPLOAD
+_container_name: $AZURECONTAINERNAME
+_account_name: $AZUREACCOUNTNAME
+_account_key: $AZUREACCOUNTKEY
 
 ################################
 ############ LINODE ############
 ################################
-_linode_upload: 0
-_linode_bucket:
-_linode_access_key:
-_linode_secret_key:
-_host:
+_linode_upload: $LINODEUPLOAD
+_linode_bucket: $LINODEBUCKET
+_linode_access_key: $LINODEACCESSKEY
+_linode_secret_key: $LINODESECRETKEY
+_host: $LINODEHOST
 
 ################################
 ############## AWS #############
 ################################
-_aws_upload: 0
-_aws_bucket:
-_aws_access_key:
-_aws_secret_key:
+_aws_upload: $AWSUPLOAD
+_aws_bucket: $AWSBUCKET
+_aws_access_key: $AWSACCESSKEY
+_aws_secret_key: $AWSSECRETKEY
