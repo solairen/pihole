@@ -1,29 +1,23 @@
 ---
 - name: backup PiHole files
-  archive:
-    path:
-      - /var/pihole/dnsmasq.d/*
-      - /var/pihole/pihole/*
-    dest: pihole.tar.gz
-    format: gz
-    mode: 0755
+  shell: "zip --password {{ _zip_password }} -r pihole.zip /var/pihole/"
 - name: send backup to Azure
-  shell: 'az storage blob upload --account-name {{ acc }} --container-name {{ cont }} --account-key "{{ key }}" --name pihole.tar.gz --file pihole.tar.gz'
+  shell: 'az storage blob upload --account-name {{ acc }} --container-name {{ cont }} --account-key "{{ key }}" --name pihole.zip --file pihole.zip'
   when: _azure_upload == 1
 - name: send backup to Linode
-  shell: 's3cmd put pihole.tar.gz s3://{{ _linode_bucket }}'
+  shell: "s3cmd put pihole.zip --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}"
   when: _linode_upload == 1
 - name: send backup to AWS
   amazon.aws.aws_s3:
     aws_access_key: "{{ _aws_access_key }}"
     aws_secret_key: "{{ _aws_secret_key }}"
     mode: put
-    src: pihole.tar.gz
-    object: pihole/pihole.tar.gz
+    src: pihole.zip
+    object: pihole/pihole.zip
     bucket: "{{ _aws_bucket }}"
   when: _aws_upload == 1
 - name: remove backup from the host
   file:
     state: absent
-    path: $HOME/pihole.tar.gz
+    path: $HOME/pihole.zip
   when: _azure_upload == 1 or _linode_upload == 1 or _aws_upload == 1

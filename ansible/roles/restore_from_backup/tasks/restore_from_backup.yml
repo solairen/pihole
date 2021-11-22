@@ -1,9 +1,9 @@
 ---
 - name: download PiHole backup from Azure
-  shell: 'az storage blob download --account-name {{ account }} --container {{ container }} --name pihole.tar.gz --file pihole.tar.gz --account-key "{{ key }}"'
+  shell: 'az storage blob download --account-name {{ account }} --container {{ container }} --name pihole.zip --file pihole.zip --account-key "{{ key }}"'
   when: _restore_from_backup.azure == 1
 - name: download PiHole backup from Linode
-  shell: 's3cmd get s3://{{ _linode_bucket }}/pihole.tar.gz'
+  shell: "s3cmd get --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole.zip"
   when: _restore_from_backup.linode == 1
 - name: download PiHole backup from AWS
   amazon.aws.aws_s3:
@@ -11,8 +11,8 @@
     aws_secret_key: "{{ _aws_secret_key }}"
     mode: get
     bucket: "{{ _aws_bucket }}"
-    object: pihole/pihole.tar.gz
-    dest: $HOME/pihole.tar.gz
+    object: pihole/pihole.zip
+    dest: $HOME/pihole.zip
   when: _restore_from_backup.aws == 1
 - name: stop PiHole container
   become: true
@@ -30,10 +30,23 @@
     path: /var/pihole/dnsmasq.d
     state: absent
 - name: unarchive PiHole backup
-  unarchive:
-    src: $HOME/pihole.tar.gz
-    dest: /var/pihole/
-    remote_src: true
+  shell: "unzip -o -P {{ _zip_password }} $HOME/pihole.zip -d /"
+- name: change pihole ownership
+  become: true
+  file:
+    path: /var/pihole/pihole
+    recurse: yes
+    owner: root
+    group: root
+- name: change FTL.conf and gravity.db ownership
+  become: true
+  file:
+    path: /var/pihole/pihole/{{ item }}
+    owner: systemd-coredump
+    group: systemd-coredump
+  with_items:
+    - pihole-FTL.conf
+    - gravity.db
 - name: start PiHole container
   become: true
   docker_container:
@@ -50,4 +63,4 @@
 - name: remove backup from host
   file:
     state: absent
-    path: $HOME/pihole.tar.gz
+    path: $HOME/pihole.zip
