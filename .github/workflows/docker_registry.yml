@@ -3,7 +3,7 @@ on: [ workflow_dispatch ]
 
 jobs:
   push_to_docker_registry:
-    name: Push image to Docker registry
+    name: Push image to DockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub

@@ -16,7 +16,6 @@
     volumes:
       - pihole-db:/etc/pihole/
       - pihole-conf:/etc/dnsmasq.d/
-      - pihole-log:/var/log/
     env:
       TZ: "{{ _time_zone }}"
     dns_servers:
