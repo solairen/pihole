@@ -1,6 +1,6 @@
 FROM moleszek/ansible:latest
 
-RUN apk add --no-cache git openssh
+RUN apk add --no-cache git openssh dos2unix
 
 WORKDIR /ansible
 
@@ -10,10 +10,6 @@ COPY scripts/ /scripts/
 WORKDIR /ansible
 COPY ansible/ .
 
-RUN addgroup -S ansible && adduser -S ansible -G ansible
-RUN chown -R ansible:ansible /ansible
-RUN chown -R ansible:ansible /scripts
-
-USER ansible
+RUN dos2unix /scripts/change_variable.sh
 
 ENTRYPOINT [ "sh" ]
