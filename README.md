@@ -33,6 +33,8 @@ The last step of the installation process is to set DNS to PiHole (host) IP addr
 
 It is a possibility to upload backup to all cloud providers at one time, to do that those programs: **azure CLI**, **s3cmd**, **boto3** must be installed on the host where PiHole is installed.
 
+> **_NOTE:_** S3CMD and boto3 are installed during installation process.
+
 #### Firewall
 On host where PiHole will be installed, **UFW** should be enabled and a port that has been configured to ssh connection should be temporary added to the rule.
 
