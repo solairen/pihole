@@ -2,6 +2,8 @@ FROM moleszek/ansible:latest
 
 RUN apk add --no-cache git openssh
 
+WORKDIR /ansible
+
 RUN mkdir /scripts
 COPY scripts/ /scripts/
 

@@ -1,5 +1,5 @@
 ---
-debian_packages: [apt-transport-https, ca-certificates, curl, software-properties-common, gnupg-agent, ufw]
+debian_packages: [apt-transport-https, ca-certificates, curl, software-properties-common, gnupg-agent, ufw, zip, s3cmd]
 docker_packages: [docker-ce, docker-ce-cli, containerd.io]
 python_packages: [python3, python3-pip]
-python_pip_packages: [docker, docker-compose]
+python_pip_packages: [docker, docker-compose, boto3]

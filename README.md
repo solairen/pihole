@@ -31,13 +31,7 @@ The last step of the installation process is to set DNS to PiHole (host) IP addr
 #### Azure Blob Storage
 [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) should be installed on the host where PiHole is installed and Azure Blob Storage should be created on Azure.
 
-#### Linode Object Storage
-[s3cmd](https://www.linode.com/docs/guides/how-to-use-object-storage/#s3cmd) should be installed on the host where PiHole is installed and Object Storage should be created on Linode.
-
-#### AWS S3 Object Storage
-[s3cmd](https://github.com/s3tools/s3cmd) should be installed on the host where PiHole is installed and S3 Bucket should be created on AWS.
-
-It is a possibility to upload backup to all cloud providers at one time, to do that those programs: **azure CLI**, **s3cmd** must be installed on the host where PiHole is installed.
+It is a possibility to upload backup to all cloud providers at one time, to do that those programs: **azure CLI**, **s3cmd**, **boto3** must be installed on the host where PiHole is installed.
 
 #### Firewall
 On host where PiHole will be installed, **UFW** should be enabled and a port that has been configured to ssh connection should be temporary added to the rule.
@@ -49,7 +43,7 @@ If **password** is used, comment **ssh_key**.</br>
 ```yml
 linux:
     vars:
-      ansible_ssh_user: user
+      ansible_ssh_user: username
       ansible_ssh_pass: password
       ansible_port: 22
       ansible_ssh_private_key_file: <path_to_key>
@@ -77,6 +71,9 @@ _account_name: {accountName}      => Set Azure Blob Storage account name.
 _account_key: {accountKey}        => Set Azure Blob Storage account key.
 _linode_upload: 0                 => Upload to Linode Ojbect Storage. 1 - yes, 0 - no.
 _linode_bucket: {bucketName}      => Linode Object Storage name.
+_linode_access_key: {accessKey}   => Linode Object Storage access key.
+_linode_secret_key:               => Linode Object Storage secret key.
+_host:                            => Linode Object Storage region.
 _aws_upload: 0                    => Upload to AWS S3. 1 - yes, 0 - no.
 _aws_bucket: {bucketName}         => AWS S3 Bucket name.
 _aws_access_key: {accessKey}      => AWS access key.
