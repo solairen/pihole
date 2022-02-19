@@ -1,8 +1,8 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: 2021.10.1
-_ph_restore_version: 2021.10
+_ph_version: 2022.02.1
+_ph_restore_version: 2021.10.1
 _time_zone: Europe/Warsaw
 
 ################################

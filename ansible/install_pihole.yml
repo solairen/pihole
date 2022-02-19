@@ -1,9 +1,9 @@
 ---
-- include: playbooks/check_deploy.yml
-- include: playbooks/prepare.yml
+- import_playbook: playbooks/check_deploy.yml
+- import_playbook: playbooks/prepare.yml
   when: deployment | lower == "greenfield"
-- include: playbooks/backup.yml
+- import_playbook: playbooks/backup.yml
   when: deployment | lower == "brownfield"
-- include: playbooks/pihole.yml
-- include: playbooks/restore_from_backup.yml
+- import_playbook: playbooks/pihole.yml
+- import_playbook: playbooks/restore_from_backup.yml
   when: deployment | lower == "greenfield"

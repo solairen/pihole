@@ -33,6 +33,7 @@
 - name: pull PiHole docker image
   docker_image:
     name: "pihole/pihole:{{ _ph_version }}"
+    source: pull
 - name: remove PiHole container
   docker_container:
     name: "{{ pi_name }}"
