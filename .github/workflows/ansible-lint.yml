@@ -6,6 +6,10 @@ on:
   pull_request:
     branches-ignore:
       - "main"
+
+env:
+  DISCORD: ${{ secrets.discord_webhook }}
+
 jobs:
   ansible-lint:
     name: Run Ansible lint
@@ -26,3 +30,28 @@ jobs:
           ansible/roles/restore_from_backup/tasks/*.yml
           ansible/roles/restore_from_backup/vars/*.yml
         args: -x command-instead-of-shell,204
+  notify_on_success:
+    name: Send notification on success
+    needs:
+      - ansible-lint
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ env.DISCORD }}
+          description: "Successfully test docker image!"
+  notify_on_failure:
+    name: Send notification on failure
+    needs:
+      - ansible-lint
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ env.DISCORD }}
+          status: failure
+          description: "Failed to test docker image!"
