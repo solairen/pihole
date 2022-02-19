@@ -41,7 +41,7 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ env.DISCORD }}
-          description: "Successfully test docker image!"
+          description: "No errors found!"
   notify_on_failure:
     name: Send notification on failure
     needs:
@@ -54,4 +54,4 @@ jobs:
         with:
           webhook: ${{ env.DISCORD }}
           status: failure
-          description: "Failed to test docker image!"
+          description: "Errors have been found!"
