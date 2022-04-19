@@ -1,0 +1,14 @@
+{
+    "image": "moleszek/ansible:latest",
+    "extensions": [
+        "redhat.ansible",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
+        "docsmsft.docs-preview",
+        "redhat.ansible",
+        "aaron-bond.better-comments",
+        "eamodio.gitlens"
+    ],
+    "postCreateCommand": "apt update && apt -y install git ansible-lint && ansible-galaxy collection install community.docker"
+}

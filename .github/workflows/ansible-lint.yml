@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check yaml files
-      uses: ansible/ansible-lint-action@master
+      uses: ansible-community/ansible-lint-action@v6.0.2
       with:
         targets: |
           ansible/playbooks/*.yml
