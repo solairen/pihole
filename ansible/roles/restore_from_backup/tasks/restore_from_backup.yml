@@ -1,9 +1,9 @@
 ---
 - name: download PiHole backup from Azure
-  shell: 'az storage blob download --account-name {{ account }} --container {{ container }} --name pihole.zip --file pihole.zip --account-key "{{ key }}"'
+  shell: 'az storage blob download --account-name {{ account }} --container {{ container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ key }}"'
   when: _restore_from_backup.azure == 1
 - name: download PiHole backup from Linode
-  shell: "s3cmd get --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole.zip"
+  shell: "s3cmd get --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
   when: _restore_from_backup.linode == 1
 - name: download PiHole backup from AWS
   amazon.aws.aws_s3:
