@@ -2,5 +2,5 @@
 - hosts: pihole
   gather_facts: true
   roles:
-    - role: roles/restore_from_backup
+    - role: ../roles/restore_from_backup
       when: _restore_from_backup.azure == 1 or _restore_from_backup.linode == 1 or _restore_from_backup.aws == 1

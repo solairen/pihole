@@ -17,19 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check yaml files
-      uses: ansible/ansible-lint-action@master
-      with:
-        targets: |
-          ansible/playbooks/*.yml
-          ansible/roles/backup/tasks/*.yml
-          ansible/roles/backup/vars/*.yml
-          ansible/roles/pihole/tasks/*.yml
-          ansible/roles/pihole/vars/*.yml
-          ansible/roles/prepare/tasks/*.yml
-          ansible/roles/prepare/vars/*.yml
-          ansible/roles/restore_from_backup/tasks/*.yml
-          ansible/roles/restore_from_backup/vars/*.yml
-        args: -x command-instead-of-shell,204
+      uses: ansible-community/ansible-lint-action@v6.0.2
   notify_on_success:
     name: Send notification on success
     needs:

@@ -1,11 +1,14 @@
 ---
 - name: backup PiHole files
-  shell: "zip --password {{ _zip_password }} -r pihole.zip /var/pihole/"
+  ansible.builtin.command: "zip --password {{ _zip_password }} -r pihole.zip /var/pihole/"
+  changed_when: false
 - name: send backup to Azure
-  shell: 'az storage blob upload --account-name {{ acc }} --container-name {{ cont }} --account-key "{{ key }}" --name pihole.zip --file pihole.zip'
+  ansible.builtin.command: 'az storage blob upload --account-name {{ acc }}
+    --container-name {{ cont }} --account-key "{{ key }}" --name pihole/pihole.zip --file pihole.zip'
   when: _azure_upload == 1
 - name: send backup to Linode
-  shell: "s3cmd put pihole.zip --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}"
+  ansible.builtin.command: "s3cmd put pihole.zip --access_key={{ _linode_access_key }}
+    --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole"
   when: _linode_upload == 1
 - name: send backup to AWS
   amazon.aws.aws_s3:
@@ -17,7 +20,7 @@
     bucket: "{{ _aws_bucket }}"
   when: _aws_upload == 1
 - name: remove backup from the host
-  file:
+  ansible.builtin.file:
     state: absent
     path: $HOME/pihole.zip
   when: _azure_upload == 1 or _linode_upload == 1 or _aws_upload == 1
