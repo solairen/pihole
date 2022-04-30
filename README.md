@@ -17,6 +17,7 @@ The last step of the installation process is to set DNS to PiHole (host) IP addr
 
 ### Supported OS:
 * Ubuntu 20.04
+* Ubuntu 22.04
 
 ### Prerequisites
 * [Ansible](https://docs.ansible.com/ansible/latest/index.html)
@@ -38,25 +39,23 @@ It is a possibility to upload backup to all cloud providers at one time, to do t
 #### Firewall
 On host where PiHole will be installed, **UFW** should be enabled and a port that has been configured to ssh connection should be temporary added to the rule.
 
-#### Inventory.yml
-In `inventory.yml`, set **IP**, **user**, **password**, **ssh port** or **ssh_key** on where PiHole should be installed.</br>
+#### Inventory.ini
+In `inventory.ini`, set **IP**, **user**, **password**, **ssh port** or **ssh_key** on where PiHole should be installed.</br>
 If **ssh_key** is used, comment **password**.</br>
 If **password** is used, comment **ssh_key**.</br>
-```yml
-linux:
-    vars:
-      ansible_ssh_user: username
-      ansible_ssh_pass: password
-      ansible_port: 22
-      ansible_ssh_private_key_file: <path_to_key>
-    children:
-      pihole:
-        hosts:
-          127.0.0.1:
+```ini
+[pihole]
+127.0.0.1
+
+[pihole:vars]
+ansible_ssh_user=user
+ansible_ssh_pass=password
+ansible_ssh_private_key_file=<path_to_key>
+ansible_port=22
 ```
 
-#### Group_vars/all/common
-In `group_vars/all/common`, set:
+#### Group_vars/all/common.yml
+In `group_vars/all/common.yml`, set:
 
 ```txt
 _ph_version: latest               => PiHole version.
@@ -92,11 +91,11 @@ Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail
 ### How to run:
 
 ```bash
-ansible-playbook -i inventory.yml install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
+ansible-playbook -i inventory.ini install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
 ```
 
 ### Additional information
-Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that will replace ``common`` and ``inventory.yml`` files with proper values based on environment variables.
+Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that will replace ``common.yml`` and ``inventory.ini`` files with proper values based on environment variables.
 
 #### How to run
 
@@ -117,4 +116,4 @@ Run script:
 sh scripts/change_variable.sh
 ```
 
-Old ``common`` and ``inventory.yml`` file will be replace with new one and with values that has been taken from environment variable.
+Old ``common.yml`` and ``inventory.ini`` file will be replace with new one and with values that has been taken from environment variable.

@@ -1,7 +1,7 @@
 {
     "name": "pihole-dev",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Dockerfile-dev"
     },
     "extensions": [
         "redhat.ansible",

@@ -8,11 +8,11 @@
           vars:
             _version: "{{ _ph_version }}"
             _task_name: "run PiHole in version: {{ _ph_version }}"
-          import_role:
-            name: roles/pihole
+          ansible.builtin.import_role:
+            name: ../roles/pihole
       rescue:
         - name: do not restore in greenfield
-          fail:
+          ansible.builtin.fail:
             msg: "Installation failed!"
           when: deployment | lower == "greenfield"
         - name: restore on fail

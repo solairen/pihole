@@ -2,4 +2,4 @@
 - hosts: pihole
   gather_facts: true
   roles:
-    - role: roles/backup
+    - role: ../roles/backup

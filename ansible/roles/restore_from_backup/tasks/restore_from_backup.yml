@@ -1,9 +1,11 @@
 ---
 - name: download PiHole backup from Azure
-  shell: 'az storage blob download --account-name {{ account }} --container {{ container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ key }}"'
+  ansible.builtin.command: 'az storage blob download --account-name {{ account }}
+    --container {{ container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ key }}"'
   when: _restore_from_backup.azure == 1
 - name: download PiHole backup from Linode
-  shell: "s3cmd get --access_key={{ _linode_access_key }} --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
+  ansible.builtin.command: "s3cmd get --access_key={{ _linode_access_key }}
+    --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
   when: _restore_from_backup.linode == 1
 - name: download PiHole backup from AWS
   amazon.aws.aws_s3:
@@ -21,26 +23,32 @@
     state: stopped
 - name: remove pihole folder
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/pihole/pihole
     state: absent
 - name: remove dnsmasq.d folder
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/pihole/dnsmasq.d
     state: absent
 - name: unarchive PiHole backup
-  shell: "unzip -o -P {{ _zip_password }} $HOME/pihole.zip -d /"
+  ansible.builtin.unarchive:
+    src: $HOME/pihole.zip
+    dest: /
+    remote_src: true
+    extra_opts:
+      - "P"
+      - "{{ _zip_password }}"
 - name: change pihole ownership
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/pihole/pihole
-    recurse: yes
+    recurse: true
     owner: root
     group: root
 - name: change FTL.conf and gravity.db ownership
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/pihole/pihole/{{ item }}
     owner: systemd-coredump
     group: systemd-coredump
@@ -61,6 +69,6 @@
   register: result
   until: "result.container['State']['Health']['Status'] == 'healthy'"
 - name: remove backup from host
-  file:
+  ansible.builtin.file:
     state: absent
     path: $HOME/pihole.zip

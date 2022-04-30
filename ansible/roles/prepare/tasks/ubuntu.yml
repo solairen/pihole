@@ -1,6 +1,6 @@
 ---
 - name: install required packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
@@ -8,42 +8,42 @@
     - "{{ debian_packages }}"
     - "{{ python_packages }}"
 - name: add docker gpg key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
     state: present
 - name: add docker repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
     state: present
     update_cache: true
 - name: install docker
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
   loop: "{{ docker_packages }}"
 - name: enable docker service
-  service:
+  ansible.builtin.service:
     name: docker
     enabled: true
     state: restarted
 - name: install docker-compose
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/docker/compose/releases/download/{{ _docker_compose_version }}/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: '+x'
 - name: install required python packages
-  pip:
+  ansible.builtin.pip:
     name: "{{ item }}"
     executable: pip3
   loop: "{{ python_pip_packages }}"
 - name: disable dns server (temporary)
-  systemd:
+  ansible.builtin.systemd:
     name: systemd-resolved.service
     state: stopped
     enabled: false
 - name: reconfigure ubuntu dns (temporary)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/resolv.conf
     regexp: '^nameserver'
     line: nameserver 8.8.8.8

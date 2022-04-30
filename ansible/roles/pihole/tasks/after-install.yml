@@ -1,15 +1,15 @@
 ---
 - name: disable dns on port 53 in resolved.conf
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
-    path:  /etc/systemd/resolved.conf
+    path: /etc/systemd/resolved.conf
     regexp: '^#DNSStubListener'
     line: 'DNSStubListener=no'
   when: deployment | lower == "greenfield"
 - name: add PiHole dns ip
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     path: /etc/systemd/resolved.conf
     regexp: '^#DNS'
@@ -17,19 +17,19 @@
   when: deployment | lower == "greenfield"
 - name: remove resolv.conf
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/resolv.conf
     state: absent
   when: deployment | lower == "greenfield"
 - name: create symbolic link to resolv.conf
   become: true
-  file:
+  ansible.builtin.file:
     src: /run/systemd/resolve/resolv.conf
     dest: /etc/resolv.conf
     state: link
   when: deployment | lower == "greenfield"
 - name: start dns server
-  systemd:
+  ansible.builtin.systemd:
     name: systemd-resolved.service
     state: started
     enabled: true
