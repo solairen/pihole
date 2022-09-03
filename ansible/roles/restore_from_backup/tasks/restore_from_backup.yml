@@ -1,13 +1,13 @@
 ---
-- name: download PiHole backup from Azure
+- name: Download PiHole backup from Azure
   ansible.builtin.command: 'az storage blob download --account-name {{ account }}
     --container {{ container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ key }}"'
   when: _restore_from_backup.azure == 1
-- name: download PiHole backup from Linode
+- name: Download PiHole backup from Linode
   ansible.builtin.command: "s3cmd get --access_key={{ _linode_access_key }}
     --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
   when: _restore_from_backup.linode == 1
-- name: download PiHole backup from AWS
+- name: Download PiHole backup from AWS
   amazon.aws.aws_s3:
     aws_access_key: "{{ _aws_access_key }}"
     aws_secret_key: "{{ _aws_secret_key }}"
@@ -16,22 +16,22 @@
     object: pihole/pihole.zip
     dest: $HOME/pihole.zip
   when: _restore_from_backup.aws == 1
-- name: stop PiHole container
+- name: Stop PiHole container
   become: true
   docker_container:
     name: pihole
     state: stopped
-- name: remove pihole folder
+- name: Remove pihole folder
   become: true
   ansible.builtin.file:
     path: /var/pihole/pihole
     state: absent
-- name: remove dnsmasq.d folder
+- name: Remove dnsmasq.d folder
   become: true
   ansible.builtin.file:
     path: /var/pihole/dnsmasq.d
     state: absent
-- name: unarchive PiHole backup
+- name: Unarchive PiHole backup
   ansible.builtin.unarchive:
     src: $HOME/pihole.zip
     dest: /
@@ -39,14 +39,14 @@
     extra_opts:
       - "P"
       - "{{ _zip_password }}"
-- name: change pihole ownership
+- name: Change pihole ownership
   become: true
   ansible.builtin.file:
     path: /var/pihole/pihole
     recurse: true
     owner: root
     group: root
-- name: change FTL.conf and gravity.db ownership
+- name: Change FTL.conf and gravity.db ownership
   become: true
   ansible.builtin.file:
     path: /var/pihole/pihole/{{ item }}
@@ -55,12 +55,12 @@
   with_items:
     - pihole-FTL.conf
     - gravity.db
-- name: start PiHole container
+- name: Start PiHole container
   become: true
   docker_container:
     name: pihole
     state: started
-- name: check if PiHole is running
+- name: Check if PiHole is running
   become: true
   docker_container_info:
     name: pihole
@@ -68,7 +68,7 @@
   delay: 3
   register: result
   until: "result.container['State']['Health']['Status'] == 'healthy'"
-- name: remove backup from host
+- name: Remove backup from host
   ansible.builtin.file:
     state: absent
     path: $HOME/pihole.zip
