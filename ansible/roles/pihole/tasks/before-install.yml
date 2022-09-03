@@ -1,10 +1,10 @@
 ---
-- name: create PiHole docker network
+- name: Create PiHole docker network
   docker_network:
     name: "{{ pi_net }}"
     state: present
   when: deployment | lower == "greenfield"
-- name: create PiHole folders
+- name: Create PiHole folders
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -14,7 +14,7 @@
   with_items:
     - "{{ pi_folders }}"
   when: deployment | lower == "greenfield"
-- name: create PiHole pihole volume
+- name: Create PiHole pihole volume
   docker_volume:
     name: pihole-db
     driver_options:
@@ -22,7 +22,7 @@
       device: /var/pihole/pihole
       o: bind
   when: deployment | lower == "greenfield"
-- name: create PiHole config-pihole volume
+- name: Create PiHole config-pihole volume
   docker_volume:
     name: pihole-conf
     driver_options:
@@ -30,11 +30,11 @@
       device: /var/pihole/dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
-- name: pull PiHole docker image
+- name: Pull PiHole docker image
   docker_image:
     name: "pihole/pihole:{{ _ph_version }}"
     source: pull
-- name: remove PiHole container
+- name: Remove PiHole container
   docker_container:
     name: "{{ pi_name }}"
     state: absent

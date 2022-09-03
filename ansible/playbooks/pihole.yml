@@ -2,20 +2,22 @@
 - hosts: pihole
   gather_facts: true
   become: true
+  name: PiHole
   tasks:
-    - block:
-        - name: install PiHole
+    - name: Restore on failure
+      block:
+        - name: Install PiHole
           vars:
             _version: "{{ _ph_version }}"
             _task_name: "run PiHole in version: {{ _ph_version }}"
           ansible.builtin.import_role:
             name: ../roles/pihole
       rescue:
-        - name: do not restore in greenfield
+        - name: Do not restore in greenfield
           ansible.builtin.fail:
             msg: "Installation failed!"
           when: deployment | lower == "greenfield"
-        - name: restore on fail
+        - name: Restore on fail
           vars:
             _version: "{{ _ph_restore_version }}"
             _task_name: "restore PiHole to version: {{ _ph_restore_version }}"

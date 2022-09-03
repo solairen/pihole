@@ -2,5 +2,6 @@
 - hosts: pihole
   gather_facts: true
   become: true
+  name: Prepare
   roles:
     - role: ../roles/prepare
