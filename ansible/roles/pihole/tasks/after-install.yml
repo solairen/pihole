@@ -35,7 +35,7 @@
     enabled: true
   when: deployment | lower == "greenfield"
 - name: Remove old PiHole docker image
-  docker_image:
+  ansible.builtin.docker_image:
     state: absent
     name: pihole/pihole
     tag: "v{{ _ph_restore_version }}"

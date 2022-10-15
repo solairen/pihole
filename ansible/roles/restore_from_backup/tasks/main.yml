@@ -1,2 +1,3 @@
 ---
-- import_tasks: restore_from_backup.yml
+- name: Import restore_from_backup task
+  ansible.builtin.import_tasks: restore_from_backup.yml

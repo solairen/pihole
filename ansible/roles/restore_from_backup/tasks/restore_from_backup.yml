@@ -8,7 +8,7 @@
     --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
   when: _restore_from_backup.linode == 1
 - name: Download PiHole backup from AWS
-  amazon.aws.aws_s3:
+  ansible.builtin.aws_s3:
     aws_access_key: "{{ _aws_access_key }}"
     aws_secret_key: "{{ _aws_secret_key }}"
     mode: get
@@ -18,7 +18,7 @@
   when: _restore_from_backup.aws == 1
 - name: Stop PiHole container
   become: true
-  docker_container:
+  community.docker.docker_container:
     name: pihole
     state: stopped
 - name: Remove pihole folder
@@ -37,7 +37,7 @@
     dest: /
     remote_src: true
     extra_opts:
-      - "P"
+      - "-P"
       - "{{ _zip_password }}"
 - name: Change pihole ownership
   become: true
@@ -46,23 +46,14 @@
     recurse: true
     owner: root
     group: root
-- name: Change FTL.conf and gravity.db ownership
-  become: true
-  ansible.builtin.file:
-    path: /var/pihole/pihole/{{ item }}
-    owner: systemd-coredump
-    group: systemd-coredump
-  with_items:
-    - pihole-FTL.conf
-    - gravity.db
 - name: Start PiHole container
   become: true
-  docker_container:
+  community.docker.docker_container:
     name: pihole
     state: started
 - name: Check if PiHole is running
   become: true
-  docker_container_info:
+  community.docker.docker_container_info:
     name: pihole
   retries: 15
   delay: 3

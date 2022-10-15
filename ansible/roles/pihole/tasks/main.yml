@@ -1,4 +1,7 @@
 ---
-- import_tasks: before-install.yml
-- import_tasks: install.yml
-- import_tasks: after-install.yml
+- name: Import before-install task
+  ansible.builtin.import_tasks: before-install.yml
+- name: Import install task
+  ansible.builtin.import_tasks: install.yml
+- name: Import after-install task
+  ansible.builtin.import_tasks: after-install.yml
