@@ -1,2 +1,3 @@
 ---
-- import_tasks: ubuntu.yml
+- name: Import ubuntu task
+  ansible.builtin.import_tasks: ubuntu.yml

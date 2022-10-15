@@ -1,15 +1,15 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: 2022.02.1
-_ph_restore_version: 2021.10.1
+_ph_version: 2022.09.4
+_ph_restore_version: 2022.09.4
 _time_zone: Europe/Warsaw
 
 ################################
 ##### OTHER CONFIGURATION ######
 ################################
 _zip_password:
-_docker_compose_version: 1.27.4
+_docker_compose_version: 2.11.1
 _restore_from_backup:
     azure: 0
     linode: 0
