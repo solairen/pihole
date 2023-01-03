@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check yaml files
-      uses: ansible-community/ansible-lint-action@v6.8.2
+      uses: ansible-community/ansible-lint-action@v6.10.2
   notify_on_success:
     name: Send notification on success
     needs:
