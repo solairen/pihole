@@ -15,7 +15,7 @@ jobs:
     name: Run Ansible lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Check yaml files
       uses: ansible-community/ansible-lint-action@v6.17.0
   notify_on_success:
