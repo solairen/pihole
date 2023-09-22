@@ -23,6 +23,10 @@ jobs:
           ref: ${{ github.ref }}
           token: ${{ env.GH_TOKEN }}
 
+      - name: run
+        run: |
+          ls -la
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
