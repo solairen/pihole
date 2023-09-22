@@ -19,7 +19,6 @@ jobs:
       - name: Checkout pihole repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository }}
           ref: ${{ github.ref }}
           token: ${{ env.GH_TOKEN }}
 
