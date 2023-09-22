@@ -1,9 +1,14 @@
 ---
-- ansible.builtin.import_playbook: playbooks/check_deploy.yml
-- ansible.builtin.import_playbook: playbooks/prepare.yml
+- name: Check deployment playbook
+  ansible.builtin.import_playbook: playbooks/check_deploy.yml
+- name: Prepare playbook
+  ansible.builtin.import_playbook: playbooks/prepare.yml
   when: deployment | lower == "greenfield"
-- ansible.builtin.import_playbook: playbooks/backup.yml
+- name: Backup playbook
+  ansible.builtin.import_playbook: playbooks/backup.yml
   when: deployment | lower == "brownfield"
-- ansible.builtin.import_playbook: playbooks/pihole.yml
-- ansible.builtin.import_playbook: playbooks/restore_from_backup.yml
+- name: PiHole playbook
+  ansible.builtin.import_playbook: playbooks/pihole.yml
+- name: Restore from backup playbook
+  ansible.builtin.import_playbook: playbooks/restore_from_backup.yml
   when: deployment | lower == "greenfield"

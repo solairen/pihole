@@ -1,3 +1,7 @@
 ---
-- name: Import ubuntu task
+- name: Import Docker task
+  ansible.builtin.import_tasks: docker.yml
+  when: installation_type | lower == "docker"
+
+- name: Import Ubuntu task
   ansible.builtin.import_tasks: ubuntu.yml

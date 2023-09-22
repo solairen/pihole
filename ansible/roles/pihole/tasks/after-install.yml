@@ -7,6 +7,7 @@
     regexp: '^#DNSStubListener'
     line: 'DNSStubListener=no'
   when: deployment | lower == "greenfield"
+
 - name: Add PiHole dns ip
   become: true
   ansible.builtin.lineinfile:
@@ -15,12 +16,14 @@
     regexp: '^#DNS'
     line: 'DNS={{ ansible_default_ipv4.address }}'
   when: deployment | lower == "greenfield"
+
 - name: Remove resolv.conf
   become: true
   ansible.builtin.file:
     path: /etc/resolv.conf
     state: absent
   when: deployment | lower == "greenfield"
+
 - name: Create symbolic link to resolv.conf
   become: true
   ansible.builtin.file:
@@ -28,15 +31,17 @@
     dest: /etc/resolv.conf
     state: link
   when: deployment | lower == "greenfield"
+
 - name: Start dns server
   ansible.builtin.systemd:
     name: systemd-resolved.service
     state: started
     enabled: true
   when: deployment | lower == "greenfield"
+
 - name: Remove old PiHole docker image
-  ansible.builtin.docker_image:
+  community.docker.docker_image:
     state: absent
     name: pihole/pihole
     tag: "v{{ _ph_restore_version }}"
-  when: deployment | lower == "brownfield"
+  when: deployment | lower == "brownfield" and installation_type | lower == "docker"

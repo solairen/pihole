@@ -4,4 +4,4 @@
   become: true
   name: Prepare
   roles:
-    - role: ../roles/prepare
+    - prepare

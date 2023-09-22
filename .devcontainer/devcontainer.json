@@ -1,24 +1,34 @@
 {
     "name": "pihole-dev",
     "build": {
-        "dockerfile": "Dockerfile-dev"
+        "dockerfile": "../docker/Dockerfile-dev"
     },
-    "extensions": [
-        "redhat.ansible",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "redhat.vscode-yaml",
-        "docsmsft.docs-preview",
-        "redhat.ansible",
-        "aaron-bond.better-comments",
-        "eamodio.gitlens"
-    ],
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.profiles.linux": {
+            "bash": {
+              "path": "bash",
+              "icon": "terminal-bash"
+            }
+          }
+        },
+        "extensions": [
+          "redhat.ansible",
+          "ms-python.python",
+          "ms-python.vscode-pylance",
+          "redhat.vscode-yaml",
+          "docsmsft.docs-preview",
+          "redhat.ansible",
+          "aaron-bond.better-comments",
+          "eamodio.gitlens"
+        ]
+      }
+    },
     "postCreateCommand": "echo DONE!",
     "remoteUser": "root",
     "features": {
-        "github-cli": "latest"
-    },
-    "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "github-cli": "latest",
+        "git": "latest"
     }
-}
+  }

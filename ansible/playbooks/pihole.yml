@@ -11,16 +11,14 @@
             _version: "{{ _ph_version }}"
             _task_name: "run PiHole in version: {{ _ph_version }}"
           ansible.builtin.import_role:
-            name: ../roles/pihole
+            name: pihole
       rescue:
-        - name: Do not restore in greenfield
-          ansible.builtin.fail:
-            msg: "Installation failed!"
-          when: deployment | lower == "greenfield"
-        - name: Restore on fail
-          vars:
+        - name: Set PiHole restore variables
+          ansible.builtin.set_fact:
             _version: "{{ _ph_restore_version }}"
             _task_name: "restore PiHole to version: {{ _ph_restore_version }}"
-          ansible.builtin.include_role:
-            name: ../roles/pihole/tasks/install.yml
           when: deployment | lower == "brownfield"
+        - name: Restore on fail
+          ansible.builtin.import_role:
+            name: pihole
+          when: deployment | lower == "brownfield" and installation_type | lower == "docker"

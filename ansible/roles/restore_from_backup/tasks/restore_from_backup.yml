@@ -1,14 +1,18 @@
 ---
 - name: Download PiHole backup from Azure
-  ansible.builtin.command: 'az storage blob download --account-name {{ account }}
-    --container {{ container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ key }}"'
+  ansible.builtin.command: 'az storage blob download --account-name {{ restore_from_backup_account }}
+    --container {{ restore_from_backup_container }} --name pihole/pihole.zip --file pihole.zip --account-key "{{ restore_from_backup_key }}"'
   when: _restore_from_backup.azure == 1
+  changed_when: false
+
 - name: Download PiHole backup from Linode
   ansible.builtin.command: "s3cmd get --access_key={{ _linode_access_key }}
     --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole/pihole.zip"
   when: _restore_from_backup.linode == 1
+  changed_when: false
+
 - name: Download PiHole backup from AWS
-  ansible.builtin.aws_s3:
+  amazon.aws.aws_s3:
     aws_access_key: "{{ _aws_access_key }}"
     aws_secret_key: "{{ _aws_secret_key }}"
     mode: get
@@ -16,21 +20,25 @@
     object: pihole/pihole.zip
     dest: $HOME/pihole.zip
   when: _restore_from_backup.aws == 1
+
 - name: Stop PiHole container
   become: true
   community.docker.docker_container:
     name: pihole
     state: stopped
+
 - name: Remove pihole folder
   become: true
   ansible.builtin.file:
     path: /var/pihole/pihole
     state: absent
+
 - name: Remove dnsmasq.d folder
   become: true
   ansible.builtin.file:
     path: /var/pihole/dnsmasq.d
     state: absent
+
 - name: Unarchive PiHole backup
   ansible.builtin.unarchive:
     src: $HOME/pihole.zip
@@ -39,6 +47,7 @@
     extra_opts:
       - "-P"
       - "{{ _zip_password }}"
+
 - name: Change pihole ownership
   become: true
   ansible.builtin.file:
@@ -46,11 +55,13 @@
     recurse: true
     owner: root
     group: root
+
 - name: Start PiHole container
   become: true
   community.docker.docker_container:
     name: pihole
     state: started
+
 - name: Check if PiHole is running
   become: true
   community.docker.docker_container_info:
@@ -59,6 +70,7 @@
   delay: 3
   register: result
   until: "result.container['State']['Health']['Status'] == 'healthy'"
+
 - name: Remove backup from host
   ansible.builtin.file:
     state: absent

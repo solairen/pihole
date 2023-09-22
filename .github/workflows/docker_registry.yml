@@ -1,10 +1,14 @@
 name: Docker registry
-on: [ workflow_dispatch ]
+on:
+  workflow_dispatch:
+    inputs:
+      target-branch:
+        description: 'Target branch'
+        required: true
 
 env:
   DOCKER_USER: ${{ secrets.docker_username }}
   DOCKER_TOKEN: ${{ secrets.docker_token }}
-  DISCORD: ${{ secrets.discord_webhook }}
 
 jobs:
   publish:
@@ -16,34 +20,21 @@ jobs:
         with:
           username: ${{ env.DOCKER_USER }}
           password: ${{ env.DOCKER_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          file: Docker/Dockerfile
+          file: docker/Dockerfile
           push: true
           tags: moleszek/pihole:latest
-  notify_on_success:
-    name: Send notification on success
-    needs:
-      - publish
-    if: ${{ success() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send notification
-        uses: sarisia/actions-status-discord@v1
+
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.4.0
+
+      - name: Build and push with version
+        uses: docker/build-push-action@v5
         with:
-          webhook: ${{ env.DISCORD }}
-          description: "Successfully built and push docker image to DockerHub!"
-  notify_on_failure:
-    name: Send notification on failure
-    needs:
-      - publish
-    if: ${{ failure() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send notification
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ env.DISCORD }}
-          status: failure
-          description: "Failed to build and push docker image to DockerHub!"
+          file: docker/Dockerfile
+          push: true
+          tags: moleszek/pihole:${{ steps.version.outputs.version }}${{ if ne(github.event.inputs.target-branch, 'main') }}-test${{ endif }}

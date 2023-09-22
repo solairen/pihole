@@ -1,9 +1,12 @@
 ################################
 ##### PIHOLE CONFIGURATION #####
 ################################
-_ph_version: 2022.09.4
-_ph_restore_version: 2022.09.4
+_ph_version: 2023.05.2
+_ph_restore_version: 2023.05.1
 _time_zone: Europe/Warsaw
+_pihole_webpassword:
+_dns_server_1: 1.1.1.1
+_dns_server_2: 1.0.0.1
 
 ################################
 ##### OTHER CONFIGURATION ######
