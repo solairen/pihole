@@ -1,11 +1,9 @@
 name: Test docker image
 on:
   push:
-    branches-ignore:
-      - "main"
-  pull_request:
-    branches-ignore:
-      - "main"
+    branches:
+      - "*"
+      - "!main"
 
 env:
   GH_TOKEN: ${{ secrets.token }}
