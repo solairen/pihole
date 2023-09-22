@@ -16,6 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     container: docker:stable
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - run: git checkout HEAD^
+
       - name: run
         run: |
           ls -la
