@@ -28,10 +28,6 @@ jobs:
           push: true
           tags: moleszek/pihole:latest
 
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.4.0
-
       - name: Build and push with version
         uses: docker/build-push-action@v5
         with:
