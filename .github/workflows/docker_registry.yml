@@ -2,8 +2,8 @@ name: Docker registry
 on:
   workflow_dispatch:
     inputs:
-      target-branch:
-        description: 'Target branch'
+      versioning:
+        description: 'Version'
         required: true
 
 env:
@@ -37,4 +37,4 @@ jobs:
         with:
           file: docker/Dockerfile
           push: true
-          tags: moleszek/pihole:${{ steps.version.outputs.version }}${{ if ne(github.event.inputs.target-branch, 'main') }}-test${{ endif }}
+          tags: moleszek/pihole:${{ github.event.inputs.versioning }}
