@@ -1,4 +1,4 @@
 ---
-acc: "{{ _account_name }}"
-cont: "{{ _container_name }}"
-key: "{{ _account_key }}"
+backup_acc: "{{ _account_name }}"
+backup_cont: "{{ _container_name }}"
+backup_key: "{{ _account_key }}"

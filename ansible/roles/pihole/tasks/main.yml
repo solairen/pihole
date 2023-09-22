@@ -1,7 +1,17 @@
 ---
 - name: Import before-install task
   ansible.builtin.import_tasks: before-install.yml
+  when: installation_type | lower == "docker"
+
 - name: Import install task
   ansible.builtin.import_tasks: install.yml
+  when: installation_type | lower == "docker"
+
+- name: Import intall standalone task
+  become: true
+  ansible.builtin.import_tasks: standalone.yml
+  when: installation_type | lower != "docker"
+
 - name: Import after-install task
   ansible.builtin.import_tasks: after-install.yml
+  when: ansible_distribution == "Ubuntu"

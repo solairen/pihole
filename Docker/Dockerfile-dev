@@ -1,4 +1,4 @@
-FROM moleszek/ansible:6.5.0
+FROM moleszek/ansible:7.4.0
 
 RUN apt update && apt -y install wget git
 RUN wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh

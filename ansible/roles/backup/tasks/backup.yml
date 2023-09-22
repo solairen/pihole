@@ -2,16 +2,21 @@
 - name: Backup PiHole files
   ansible.builtin.command: "zip --password {{ _zip_password }} -r pihole.zip /var/pihole/"
   changed_when: false
+
 - name: Send backup to Azure
-  ansible.builtin.command: 'az storage blob upload --account-name {{ acc }}
-    --container-name {{ cont }} --account-key "{{ key }}" --name pihole/pihole.zip --file pihole.zip'
+  ansible.builtin.command: 'az storage blob upload --account-name {{ backup_acc }}
+    --container-name {{ backup_cont }} --account-key "{{ backup_key }}" --name pihole/pihole.zip --file pihole.zip'
   when: _azure_upload == 1
+  changed_when: false
+
 - name: Send backup to Linode
   ansible.builtin.command: "s3cmd put pihole.zip --access_key={{ _linode_access_key }}
     --secret_key={{ _linode_secret_key }} --host={{ _host }} --no-ssl --host-bucket={{ _host }} s3://{{ _linode_bucket }}/pihole"
   when: _linode_upload == 1
+  changed_when: false
+
 - name: Send backup to AWS
-  ansible.builtin.aws_s3:
+  amazon.aws.aws_s3:
     aws_access_key: "{{ _aws_access_key }}"
     aws_secret_key: "{{ _aws_secret_key }}"
     mode: put
@@ -19,6 +24,7 @@
     object: pihole/pihole.zip
     bucket: "{{ _aws_bucket }}"
   when: _aws_upload == 1
+
 - name: Remove backup from the host
   ansible.builtin.file:
     state: absent

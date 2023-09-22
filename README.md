@@ -1,5 +1,5 @@
 ### About:
-This ansible script installs PiHole container on Ubuntu.<br/>
+This ansible script installs PiHole container or PiHole standalone on Ubuntu .<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains its DNS that will be disabled during the installation process.<br/>
 The last step of the installation process is to set DNS to PiHole (host) IP address.
 
@@ -47,7 +47,10 @@ In `group_vars/all/common.yml`, set:
 
 ```txt
 _ph_version: latest               => PiHole version.
-_ph_restore_version:              => Set PiHole version to restore if installation failed during brownfield.
+_ph_restore_version:              => Set PiHole version to restore if installation failed during brownfield. Used only when PiHole is installed using Docker.
+_pihole_webpassword:              => Set PiHole Web password. Used only when PiHole is installed as standalone.
+_dns_server_1: 1.1.1.1            => Set PiHole DNS server. Used only when PiHole is installed as standalone.
+_dns_server_2: 1.0.0.1            => Set PiHole DNS server. Used only when PiHole is installed as standalone.
 _time_zone: Europe/Warsaw         => Set Time Zone.
 _docker_compose_version: 1.27.4   => Docker-compose version.
 _restore_from_backup:             => Restore PiHole from backup during greenfield installation.
@@ -79,7 +82,7 @@ Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail
 ### How to run:
 
 ```bash
-ansible-playbook -i inventory.ini install_pihole.yml -e deployment=greenfield/brownfield --ask-become-pass -vv
+ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory.ini install_pihole.yml -e deployment=greenfield/brownfield -e installation_type=standalone/docker --ask-become-pass -vv
 ```
 
 ### Additional information

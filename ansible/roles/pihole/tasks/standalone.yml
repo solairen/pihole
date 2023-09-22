@@ -1,0 +1,27 @@
+---
+- name: Get PiHole official bash script
+  ansible.builtin.get_url:
+    url: https://install.pi-hole.net
+    dest: /home/{{ ansible_ssh_user }}/basic-install.sh
+    mode: "0440"
+
+- name: Create PiHole folder
+  ansible.builtin.file:
+    path: /etc/pihole
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+
+- name: Copy setupVars.j2
+  ansible.builtin.template:
+    src: templates/setupVars.conf.j2
+    dest: /etc/pihole/setupVars.conf
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: "0755"
+    backup: true
+
+- name: Run PiHole installation
+  ansible.builtin.command: bash /home/{{ ansible_ssh_user }}/basic-install.sh --unattended
+  changed_when: false

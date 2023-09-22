@@ -1,4 +1,4 @@
-FROM moleszek/ansible:latest
+FROM moleszek/ansible:7.4.0
 
 RUN apt update && apt -y install git openssh-server openssh-client dos2unix
 

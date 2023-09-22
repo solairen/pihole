@@ -1,6 +1,6 @@
 ---
 - name: "{{ _task_name }}"
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: "{{ pi_name }}"
     image: "pihole/pihole:{{ _version }}"
     state: started
@@ -23,8 +23,9 @@
       - 1.1.1.1
     hostname: "{{ pi_name }}"
     restart_policy: unless-stopped
+
 - name: Check if PiHole is running
-  ansible.builtin.docker_container_info:
+  community.docker.docker_container_info:
     name: pihole
   retries: 15
   delay: 3

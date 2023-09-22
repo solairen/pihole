@@ -1,3 +1,4 @@
 ---
 - name: Import backup task
   ansible.builtin.import_tasks: backup.yml
+  when: installation_type | lower == "docker"

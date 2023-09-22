@@ -1,3 +1,6 @@
 ---
 - name: Import restore_from_backup task
   ansible.builtin.import_tasks: restore_from_backup.yml
+  when: (_restore_from_backup.azure == 1 or
+    _restore_from_backup.linode == 1 or
+    _restore_from_backup.aws == 1)

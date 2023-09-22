@@ -1,41 +1,46 @@
 ---
 - name: Create PiHole docker network
-  ansible.builtin.docker_network:
-    name: "{{ pi_net }}"
+  community.docker.docker_network:
+    name: "{{ pihole_net }}"
     state: present
   when: deployment | lower == "greenfield"
+
 - name: Create PiHole folders
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0755
+    mode: "0755"
   with_items:
-    - "{{ pi_folders }}"
+    - "{{ pihole_folders }}"
   when: deployment | lower == "greenfield"
+
 - name: Create PiHole pihole volume
-  ansible.builtin.docker_volume:
+  community.docker.docker_volume:
     name: pihole-db
     driver_options:
       type: none
       device: /var/pihole/pihole
       o: bind
   when: deployment | lower == "greenfield"
+
 - name: Create PiHole config-pihole volume
-  ansible.builtin.docker_volume:
+  community.docker.docker_volume:
     name: pihole-conf
     driver_options:
       type: none
       device: /var/pihole/dnsmasq.d
       o: bind
   when: deployment | lower == "greenfield"
+
 - name: Pull PiHole docker image
-  ansible.builtin.docker_image:
+  community.docker.docker_image:
     name: "pihole/pihole:{{ _ph_version }}"
     source: pull
+
 - name: Remove PiHole container
-  ansible.builtin.docker_container:
-    name: "{{ pi_name }}"
+  community.docker.docker_container:
+    name: "{{ pihole_name }}"
     state: absent
   when: deployment | lower == "brownfield"

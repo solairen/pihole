@@ -3,5 +3,4 @@
   gather_facts: true
   name: Restore from backup
   roles:
-    - role: ../roles/restore_from_backup
-      when: _restore_from_backup.azure == 1 or _restore_from_backup.linode == 1 or _restore_from_backup.aws == 1
+    - restore_from_backup
