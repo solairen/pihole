@@ -27,13 +27,13 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          file: docker/Dockerfile
+          file: Docker/Dockerfile
           push: true
           tags: moleszek/pihole:latest
 
       - name: Build and push with version
         uses: docker/build-push-action@v5
         with:
-          file: docker/Dockerfile
+          file: Docker/Dockerfile
           push: true
           tags: moleszek/pihole:${{ github.event.inputs.versioning }}
