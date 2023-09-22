@@ -15,8 +15,6 @@ jobs:
     container: docker:stable
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: run
         run: |
