@@ -1,12 +1,12 @@
 ---
 - name: "{{ _task_name }}"
   community.docker.docker_container:
-    name: "{{ pi_name }}"
+    name: "{{ pihole_name }}"
     image: "pihole/pihole:{{ _version }}"
     state: started
-    network_mode: "{{ pi_net }}"
+    network_mode: "{{ pihole_net }}"
     networks:
-      - name: "{{ pi_net }}"
+      - name: "{{ pihole_net }}"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -21,7 +21,7 @@
     dns_servers:
       - 127.0.0.1
       - 1.1.1.1
-    hostname: "{{ pi_name }}"
+    hostname: "{{ pihole_name }}"
     restart_policy: unless-stopped
 
 - name: Check if PiHole is running

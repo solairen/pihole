@@ -5,3 +5,8 @@
 
 - name: Import Ubuntu task
   ansible.builtin.import_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Import Raspberry Pi task
+  ansible.builtin.import_tasks: raspberrypi.yml
+  when: ansible_distribution == "Debian" and ansible_architecture == "aarch64"

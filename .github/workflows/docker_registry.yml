@@ -15,7 +15,7 @@ jobs:
     name: Push image to DockerHub
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout pihole repository
+      - name: Checkout PiHole repository
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -36,4 +36,4 @@ jobs:
         with:
           file: Docker/Dockerfile
           push: true
-          tags: moleszek/pihole:${{ github.event.inputs.versioning }}
+          tags: moleszek/pihole:${{ inputs.versioning }}

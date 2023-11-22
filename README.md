@@ -1,11 +1,12 @@
 ### About:
-This ansible script installs PiHole container or PiHole standalone on Ubuntu .<br/>
+This ansible script installs PiHole container or PiHole standalone on Ubuntu or Raspberry Pi in version 4 or 5.<br/>
 According to [PiHole](https://github.com/pi-hole/docker-pi-hole) documentation, Ubuntu contains its DNS that will be disabled during the installation process.<br/>
 The last step of the installation process is to set DNS to PiHole (host) IP address.
 
 ### Supported OS:
 * Ubuntu 20.04
 * Ubuntu 22.04
+* Raspberry Pi 4/5
 
 ### Prerequisites
 * [Ansible](https://docs.ansible.com/ansible/latest/index.html)
@@ -46,7 +47,7 @@ ansible_port=22
 In `group_vars/all/common.yml`, set:
 
 ```txt
-_ph_version: latest               => PiHole version.
+_ph_version: latest               => PiHole version. Used only when PiHole is installed using Docker.
 _ph_restore_version:              => Set PiHole version to restore if installation failed during brownfield. Used only when PiHole is installed using Docker.
 _pihole_webpassword:              => Set PiHole Web password. Used only when PiHole is installed as standalone.
 _dns_server_1: 1.1.1.1            => Set PiHole DNS server. Used only when PiHole is installed as standalone.
@@ -77,7 +78,7 @@ To restore from backup, set 1 in variable `azure`, `linode` or `aws` to choose f
 If `azure` is set, enter proper values to the `_container_name`, `_account_name` and `_account_key`.</br>
 If `linode` is set, enter proper values to the `_linode_bucket`.</br>
 If `aws` is set, enter proper values to the `_aws_bucket`, `_aws_access_key` and `_aws_secret_key`.</br>
-Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail the process of installation. 
+Setting 1 into variables: `azure`, `linode` and `aws` at the same time will fail the process of installation.
 
 ### How to run:
 
@@ -90,7 +91,7 @@ Inside folder ``/scripts`` there is a script file ``change_variable.sh`` that wi
 
 #### How to run
 
-Set environment variables on host from where the ansible scirpt will be run or inside the docker container ([moleszek/pihole:latest](https://hub.docker.com/r/moleszek/pihole)) e.g:
+Set environment variables on host from where the ansible script will be run or inside the docker container ([moleszek/pihole:latest](https://hub.docker.com/r/moleszek/pihole)) e.g:
 
 ```bash
 export USER=testuser

@@ -24,3 +24,5 @@
 **/values.dev.yaml
 README.md
 .devcontainer/devcontainer.json
+.github
+docker

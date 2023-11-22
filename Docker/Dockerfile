@@ -1,6 +1,6 @@
 FROM moleszek/ansible:7.4.0
 
-RUN apt update && apt -y install git openssh-server openssh-client dos2unix
+RUN apt-get update && apt-get -y install git openssh-server openssh-client dos2unix vim
 
 WORKDIR /ansible
 

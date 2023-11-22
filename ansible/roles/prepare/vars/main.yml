@@ -1,5 +1,4 @@
 ---
-prepare_debian_packages: [apt-transport-https, ca-certificates, curl, software-properties-common, gnupg-agent, ufw, zip, s3cmd]
+prepare_debian_packages: [apt-transport-https, ca-certificates, curl, software-properties-common, gnupg-agent, ufw, zip, s3cmd, virtualenv]
 prepare_docker_packages: [docker-ce, docker-ce-cli, containerd.io]
 prepare_python_packages: [python3, python3-pip]
-prepare_python_pip_packages: [docker, docker-compose, boto3]

@@ -8,6 +8,12 @@
       ansible.builtin.debug:
         msg: "Deployment: {{ deployment | lower }}."
       failed_when: deployment | lower not in ["greenfield", "brownfield"]
+
+    - name: Check deployment type
+      ansible.builtin.debug:
+        msg: "Installation type: {{ installation_type | lower }}."
+      failed_when: installation_type | lower not in ["docker", "standalone"]
+
     - name: Check if send backup is selected
       ansible.builtin.debug:
         msg:
@@ -16,6 +22,7 @@
           - "Send to AWS: {{ _aws_upload }}"
       failed_when: _azure_upload >= 2 and _linode_upload >= 2 and _aws_upload >= 2 or _azure_upload >= 2 or _linode_upload >= 2 or _aws_upload >= 2
       when: deployment | lower == "brownfield"
+
     - name: Check if restore from backup is selected
       ansible.builtin.debug:
         msg:
