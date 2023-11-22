@@ -11,28 +11,15 @@
 - name: Install required python packages
   ansible.builtin.pip:
     name: "{{ item }}"
-    executable: pip3
+    virtualenv: /home/{{ ansible_ssh_user }}/venv
   with_items:
     - docker
-    - docker-compose
   when: installation_type | lower == "docker"
 
 - name: Install required python packages
   ansible.builtin.pip:
     name: "{{ item }}"
-    executable: pip3
+    virtualenv: /home/{{ ansible_ssh_user }}/venv
   with_items:
     - boto3
   when: installation_type | lower == "standalone" or installation_type | lower == "docker"
-
-- name: Disable dns server (temporary)
-  ansible.builtin.systemd:
-    name: systemd-resolved.service
-    state: stopped
-    enabled: false
-
-- name: Reconfigure ubuntu dns (temporary)
-  ansible.builtin.lineinfile:
-    path: /etc/resolv.conf
-    regexp: '^nameserver'
-    line: nameserver 8.8.8.8

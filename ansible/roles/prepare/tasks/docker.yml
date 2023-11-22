@@ -1,14 +1,21 @@
 ---
 - name: Add docker gpg key
-  ansible.builtin.apt_key:
+  ansible.builtin.get_url:
     url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
-    state: present
+    dest: /etc/apt/keyrings/docker.asc
+    mode: a+r
 
-- name: Add docker repository
+- name: Add docker repository | RaspberryPi
   ansible.builtin.apt_repository:
-    repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
+    repo: 'deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.asc]  https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
     state: present
-    update_cache: true
+  when: ansible_architecture == "aarch64"
+
+- name: Add docker repository | Ubuntu
+  ansible.builtin.apt_repository:
+    repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_lsb.codename | lower }} stable'
+    state: present
+  when: ansible_architecture != "aarch64"
 
 - name: Install docker
   ansible.builtin.apt:
