@@ -4,12 +4,9 @@
 # Use basic profile
 profile: basic
 
-# Set the project directory to ansible for proper role resolution
-project_dir: ansible
-
 exclude_paths:
-  - .git/
-  - .github/
+  - ../.git/
+  - ../.github/
   - .ansible/
 
 skip_list:
