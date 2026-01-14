@@ -1,0 +1,39 @@
+FROM moleszek/ansible:13.2.0
+
+ARG username=vscode
+
+ENV USER=${username}
+ENV USERNAME=${username}
+ENV PATH="/home/${username}/.local/bin:${PATH}"
+
+RUN apt update && apt upgrade -y && apt install curl git locales -y && apt autoremove -y && apt clean\
+  && useradd -ms /bin/bash ${username} \
+  && pip install pre-commit --break-system-packages \
+  && echo "LC_ALL=en_US.UTF-8" >> /etc/environment \
+  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+  && echo "LANG=en_US.UTF-8" > /etc/locale.conf \
+  && locale-gen en_US.UTF-8 \
+  && curl -o /tmp/install.sh https://starship.rs/install.sh \
+  && sh /tmp/install.sh -y \
+  && mkdir /home/${username}/.config \
+  && starship preset no-empty-icons -o /home/${username}/.config/starship.toml \
+  && echo 'eval "$(starship init bash)"' >> /home/${username}/.bashrc \
+  && echo "export LANG=" >> /home/${username}/.bashrc \
+  && echo "export LANGUAGE=" >> /home/${username}/.bashrc \
+  && echo "export LC_CTYPE='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_NUMERIC='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_TIME='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_COLLATE='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_MONETARY='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_MESSAGES='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_PAPER='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_NAME='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_ADDRESS='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_TELEPHONE='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_MEASUREMENT='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_IDENTIFICATION='POSIX'" >> /home/${username}/.bashrc \
+  && echo "export LC_ALL=" >> /home/${username}/.bashrc
+
+WORKDIR /home/${username}
+
+ENTRYPOINT [ "bash" ]

@@ -1,0 +1,42 @@
+---
+# Ansible-lint configuration
+
+# Use basic profile
+profile: basic
+
+# Set the project directory to ansible for proper role resolution
+project_dir: ansible
+
+exclude_paths:
+  - .git/
+  - .github/
+  - .ansible/
+
+skip_list:
+  - yaml[line-length]  # Handled by yamllint
+  - key-order[play]  # Play key order is subjective
+  - var-naming[no-role-prefix]  # Project uses underscore prefix pattern
+
+warn_list:
+  - no-changed-when
+  - risky-file-permissions
+
+# Mock modules that are not installed
+mock_modules:
+  - community.docker.docker_container
+  - community.docker.docker_container_exec
+  - community.docker.docker_container_info
+  - community.docker.docker_image
+  - community.docker.docker_network
+  - community.docker.docker_volume
+  - amazon.aws.aws_s3
+
+# Extra variables to define during linting
+extra_vars:
+  deployment: greenfield
+
+# Use default rules
+use_default_rules: true
+
+# Offline mode - don't make network calls
+offline: true

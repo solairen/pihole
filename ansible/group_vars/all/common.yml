@@ -1,3 +1,4 @@
+---
 ###########################################
 ####### PIHOLE DOCKER CONFIGURATION #######
 ###########################################
@@ -22,9 +23,9 @@ _dns_server_2: 1.0.0.1
 _zip_password:
 _docker_compose_version: 2.11.1
 _restore_from_backup:
-    azure: 0
-    linode: 0
-    aws: 0
+  azure: 0
+  linode: 0
+  aws: 0
 
 ###########################################
 ################ AZURE CLI ################

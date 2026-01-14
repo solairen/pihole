@@ -1,5 +1,6 @@
+---
 name: Ansible Lint
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches-ignore:
       - "main"
@@ -12,6 +13,6 @@ jobs:
     name: Run Ansible lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - name: Check yaml files
-      uses: ansible/ansible-lint@v26.1.0
+      - uses: actions/checkout@v6
+      - name: Check yaml files
+        uses: ansible/ansible-lint@v26.1.0

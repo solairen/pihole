@@ -1,0 +1,43 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: ^(group_vars/|roles/.*/vars/)
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, master]
+
+  # YAML linting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint.yml]
+
+  # Ansible linting (local hook to use system Python 3.12)
+  - repo: local
+    hooks:
+      - id: ansible-lint
+        name: ansible-lint
+        entry: bash -c 'cd ansible && ansible-lint --force-color'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Markdown linting (Python-based - no Node.js required)
+  - repo: local
+    hooks:
+      - id: pymarkdown
+        name: pymarkdown
+        entry: pymarkdown --config .pymarkdown.toml scan
+        language: python
+        types: [markdown]
+        additional_dependencies: [pymarkdownlnt==0.9.20]
