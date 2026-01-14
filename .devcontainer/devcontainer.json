@@ -1,34 +1,37 @@
 {
-    "name": "pihole-dev",
-    "build": {
-        "dockerfile": "../docker/Dockerfile-dev"
-    },
-    "customizations": {
-      "vscode": {
-        "settings": {
-          "terminal.integrated.profiles.linux": {
-            "bash": {
-              "path": "bash",
-              "icon": "terminal-bash"
-            }
+  "name": "pihole-dev",
+  "build": {
+    "dockerfile": "../docker/Dockerfile-dev"
+  },
+  "postCreateCommand": "echo DONE!",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/development,type=bind",
+  "workspaceFolder": "/development",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind,consistency=cached"
+  ],
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
           }
-        },
-        "extensions": [
-          "redhat.ansible",
-          "ms-python.python",
-          "ms-python.vscode-pylance",
-          "redhat.vscode-yaml",
-          "docsmsft.docs-preview",
-          "redhat.ansible",
-          "aaron-bond.better-comments",
-          "eamodio.gitlens"
-        ]
-      }
-    },
-    "postCreateCommand": "echo DONE!",
-    "remoteUser": "root",
-    "features": {
-        "github-cli": "latest",
-        "git": "latest"
+        }
+      },
+      "extensions": [
+        "redhat.ansible",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
+        "docsmsft.docs-preview",
+        "redhat.ansible",
+        "aaron-bond.better-comments",
+        "eamodio.gitlens"
+      ]
     }
   }
+}
