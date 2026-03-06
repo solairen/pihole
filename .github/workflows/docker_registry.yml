@@ -26,14 +26,14 @@ jobs:
           password: ${{ env.DOCKER_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           file: Docker/Dockerfile
           push: true
           tags: moleszek/pihole:latest
 
       - name: Build and push with version
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           file: Docker/Dockerfile
           push: true
